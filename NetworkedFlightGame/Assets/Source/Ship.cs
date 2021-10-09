@@ -72,12 +72,12 @@ public class Ship : MonoBehaviour, InputActions.IPlayerActions
         // Debug.Log("toggle reticle");
         foreach (Transform child in reticle.transform)
         {
-            Color on  = new Color(1f,1f,1f,0.3f);
+            Color on  = new Color(1f,1f,1f,0.117f);
             Color off = new Color(1f,1f,1f,0.0f);
-            if(child.GetComponent<RawImage>()){
-                RawImage ri = child.GetComponent<RawImage>();
-                ri.color = ri.color.a < 0.1f ? on : off;
-            }
+            // if(child.GetComponent<RawImage>()){
+            //     RawImage ri = child.GetComponent<RawImage>();
+            //     ri.color = ri.color.a < 0.1f ? on : off;
+            // }
             if(child.GetComponent<Text>()){
                 Text t = child.GetComponent<Text>();
                 t.color = t.color.a < 0.1f ? on : off;
