@@ -47,4 +47,4 @@ jobs:
       - uses: actions/upload-artifact@v2.1.4
         with:
           name: Build-${{ matrix.targetPlatform }}
-          path: NetworkedFlightGame/build/${{ matrix.targetPlatform }}
+          path: build/${{ matrix.targetPlatform }}
