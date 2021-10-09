@@ -6,6 +6,8 @@ namespace Source
 {
     public class EventBus : MonoBehaviour
     {
+        [Header("Settings")]
+        public string logPrefix;
         public bool shouldLogEvents;
         
         private Dictionary<Type, List<object>> listenerLists;
@@ -41,7 +43,7 @@ namespace Source
         {
             if (shouldLogEvents)
             {
-                Debug.Log(e);
+                Debug.Log($"{logPrefix} {e}");
             }
             
             var type = typeof(T);
