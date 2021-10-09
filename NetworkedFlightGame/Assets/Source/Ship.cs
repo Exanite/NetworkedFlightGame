@@ -16,6 +16,7 @@ public class Ship : MonoBehaviour, InputActions.IPlayerActions
 
     Rigidbody rb;
 
+    float cursorLockTime = 0;
     private void Awake(){
         vflags = new Vector3(0f,0f,0f);
         rb = GetComponent<Rigidbody>();
@@ -55,6 +56,7 @@ public class Ship : MonoBehaviour, InputActions.IPlayerActions
     public void OnPointer(InputAction.CallbackContext context)
     {
         Cursor.lockState = CursorLockMode.Locked;
+        qflags = new Vector3(0f,0f,0f);
     }
 
     public void OnQUIT(InputAction.CallbackContext context)
@@ -70,7 +72,7 @@ public class Ship : MonoBehaviour, InputActions.IPlayerActions
         rb.AddForce( f * Time.deltaTime );
     }
 
-    public void addTorque(float scale, Vector3 dir, float a){
+    public void addTorque(float scale, float a, Vector3 dir){
         // Vector3 t = new Vector3(qflags.x, qflags.y, 0);
         float maxTorque = 4;
         float t = a * scale;
@@ -79,13 +81,14 @@ public class Ship : MonoBehaviour, InputActions.IPlayerActions
     }
 
     public void addTorques(){
-        addTorque(1.0f, Vector3.up, qflags.x); //left right
-        addTorque(1.0f, Vector3.right, qflags.y); //up down
-        addTorque(4.0f, Vector3.forward, qflags.z); //roll
+        addTorque(1.0f, qflags.x, Vector3.up); //left right
+        addTorque(1.0f, qflags.y, Vector3.right); //up down
+        addTorque(4.0f, qflags.z, Vector3.forward); //roll
     }
 
     public void Update(){
+        if(Cursor.visible){ cursorLockTime += Time.deltaTime; }
         addImpulse();
-        addTorques();
+        if(cursorLockTime > 2){ addTorques(); }
     }
 }
