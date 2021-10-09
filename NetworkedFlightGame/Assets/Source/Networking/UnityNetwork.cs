@@ -22,6 +22,8 @@ namespace Networking
         {
             netManager = new NetManager(this);
             packetHandlers = new Dictionary<int, IPacketHandler>();
+
+            cachedWriter = new NetDataWriter();
         }
 
         private void FixedUpdate()
@@ -31,12 +33,12 @@ namespace Networking
 
         public void RegisterPacketHandler(IPacketHandler handler)
         {
-            packetHandlers.Add(handler.Id, handler);
+            packetHandlers.Add(handler.HandlerId, handler);
         }
 
         public void UnregisterPacketHandler(IPacketHandler handler)
         {
-            UnregisterPacketHandler(handler.Id);
+            UnregisterPacketHandler(handler.HandlerId);
         }
 
         public void UnregisterPacketHandler(int id)
@@ -58,7 +60,7 @@ namespace Networking
 
             cachedWriter.Put(true); // For usePacketHandler
 
-            cachedWriter.Put(handler.Id);
+            cachedWriter.Put(handler.HandlerId);
             cachedWriter.Put(writer.Data, 0, writer.Length);
         }
 

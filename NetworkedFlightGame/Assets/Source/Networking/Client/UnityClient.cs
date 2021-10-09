@@ -66,7 +66,7 @@ namespace Networking.Client
             IsConnecting = false;
         }
         
-        public void SendAsPacketHandlerToAll(IPacketHandler handler, NetDataWriter writer, DeliveryMethod deliveryMethod)
+        public void SendAsPacketHandlerToServer(IPacketHandler handler, NetDataWriter writer, DeliveryMethod deliveryMethod)
         {
             ValidateIsReadyToSend();
             

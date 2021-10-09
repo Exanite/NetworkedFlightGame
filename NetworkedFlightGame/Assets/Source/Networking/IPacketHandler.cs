@@ -4,7 +4,7 @@ namespace Networking
 {
     public interface IPacketHandler
     {
-        int Id { get; }
+        int HandlerId { get; }
         
         void Receive(NetPeer peer, NetPacketReader reader, DeliveryMethod deliveryMethod);
     }
