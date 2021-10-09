@@ -1,27 +1,14 @@
-﻿/// <summary>
-///     The result returned by <see cref="UnityClient.ConnectAsync"/>
-/// </summary>
-public class ConnectResult
+﻿namespace Networking.Client
 {
-    /// <summary>
-    ///     Creates a new <see cref="ConnectResult"/>
-    /// </summary>
-    public ConnectResult(bool isSuccess, string failReason = Constants.DefaultReason)
+    public class ConnectResult
     {
-        this.IsSuccess = isSuccess;
-        this.FailReason = failReason;
+        public ConnectResult(bool isSuccess, string failReason = Constants.DefaultReason)
+        {
+            IsSuccess = isSuccess;
+            FailReason = failReason;
+        }
+
+        public bool IsSuccess { get; }
+        public string FailReason { get; }
     }
-
-    /// <summary>
-    ///     Was the connect a success?
-    /// </summary>
-    public bool IsSuccess { get; }
-
-    /// <summary>
-    ///     The reason the connected failed
-    ///     <para/>
-    ///     Note: Invalid if <see cref="IsSuccess"/> is
-    ///     <see langword="true"/>
-    /// </summary>
-    public string FailReason { get; }
 }

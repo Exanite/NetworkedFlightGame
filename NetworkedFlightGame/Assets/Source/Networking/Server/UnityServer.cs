@@ -1,131 +1,92 @@
 ﻿using System;
 using System.Collections.Generic;
 using LiteNetLib;
-using UnityEngine;
+using LiteNetLib.Utils;
 
-/// <summary>
-///     Server that can accept connections from
-///     <see cref="Client.UnityClient"/>s
-/// </summary>
-public class UnityServer : UnityNetwork
+namespace Networking.Server
 {
-    [Header("Server:")]
-    [SerializeField]
-    private ushort port = Constants.DefaultPort;
-
-    private readonly List<NetPeer> connectedPeers = new List<NetPeer>();
-
-    /// <summary>
-    ///     Event fired when a <see cref="NetPeer"/> connects to the server
-    /// </summary>
-    public event EventHandler<UnityServer, PeerConnectedEventArgs> ClientConnectedEvent;
-
-    /// <summary>
-    ///     Event fired when a <see cref="NetPeer"/> disconnects from the
-    ///     server
-    /// </summary>
-    public event EventHandler<UnityServer, PeerDisconnectedEventArgs> ClientDisconnectedEvent;
-
-    /// <summary>
-    ///     Port the server will listen on
-    /// </summary>
-    public ushort Port
+    public class UnityServer : UnityNetwork
     {
-        get => port;
+        private readonly List<NetPeer> connectedPeers = new List<NetPeer>();
 
-        set => port = value;
-    }
+        public IReadOnlyList<NetPeer> ConnectedPeers => connectedPeers;
 
-    /// <summary>
-    ///     Is the server created and ready for connections?
-    /// </summary>
-    public bool IsCreated { get; private set; }
+        public bool IsCreated { get; private set; }
+        public override bool IsReady => IsCreated;
 
-    /// <summary>
-    ///     List of all the <see cref="NetPeer"/>s connected to the server
-    /// </summary>
-    public IReadOnlyList<NetPeer> ConnectedPeers => connectedPeers;
+        public event EventHandler<UnityServer, PeerConnectedEventArgs> ClientConnected;
+        public event EventHandler<UnityServer, PeerDisconnectedEventArgs> ClientDisconnected;
 
-    protected override bool IsReady => IsCreated;
-
-    private void OnDestroy()
-    {
-        Close(false);
-    }
-
-    /// <summary>
-    ///     Creates the server
-    /// </summary>
-    public void Create()
-    {
-        if (IsCreated)
+        private void OnDestroy()
         {
-            throw new InvalidOperationException("Server has already been created.");
+            Close(false);
         }
 
-        netManager.Start(Port);
-
-        IsCreated = true;
-    }
-
-    /// <summary>
-    ///     Closes the server
-    /// </summary>
-    public void Close()
-    {
-        Close(true);
-    }
-
-    /// <summary>
-    ///     Closes the server
-    /// </summary>
-    /// <param name="pollEvents">
-    ///     Should events be polled?
-    ///     <para/>
-    ///     Note: Should be <see langword="false"/> if called when the
-    ///     <see cref="Application"/> is quitting
-    /// </param>
-    protected void Close(bool pollEvents)
-    {
-        if (!IsCreated)
+        public void Create(int port)
         {
-            return;
+            if (IsCreated)
+            {
+                throw new InvalidOperationException("Server has already been created.");
+            }
+
+            netManager.Start(port);
+
+            IsCreated = true;
         }
 
-        netManager.DisconnectAll();
-
-        if (pollEvents)
+        public void Close()
         {
-            netManager.PollEvents();
+            Close(true);
         }
 
-        netManager.Stop();
+        public void SendAsPacketHandlerToAll(IPacketHandler handler, NetDataWriter writer, DeliveryMethod deliveryMethod)
+        {
+            ValidateIsReadyToSend();
+            
+            WritePacketHandlerDataToCachedWriter(handler, writer);
+            netManager.SendToAll(cachedWriter, deliveryMethod);
+        }
 
-        IsCreated = false;
-    }
+        protected void Close(bool pollEvents)
+        {
+            if (!IsCreated)
+            {
+                return;
+            }
 
-    protected override void OnPeerConnected(NetPeer peer)
-    {
-        connectedPeers.Add(peer);
+            netManager.DisconnectAll();
 
-        ClientConnectedEvent?.Invoke(this, new PeerConnectedEventArgs(peer));
-    }
+            if (pollEvents)
+            {
+                netManager.PollEvents();
+            }
 
-    protected override void OnPeerDisconnected(NetPeer peer, DisconnectInfo disconnectInfo)
-    {
-        connectedPeers.Remove(peer);
+            netManager.Stop();
 
-        ClientDisconnectedEvent?.Invoke(this, new PeerDisconnectedEventArgs(peer, disconnectInfo));
-    }
+            IsCreated = false;
+        }
 
-    protected override void OnNetworkReceive(NetPeer peer, NetPacketReader reader, DeliveryMethod deliveryMethod)
-    {
-        netPacketProcessor.ReadAllPackets(reader, peer);
-        reader.Recycle();
-    }
+        protected override void OnPeerConnected(NetPeer peer)
+        {
+            base.OnPeerConnected(peer);
 
-    protected override void OnConnectionRequest(ConnectionRequest request)
-    {
-        request.AcceptIfKey(Constants.ConnectionKey);
+            connectedPeers.Add(peer);
+
+            ClientConnected?.Invoke(this, new PeerConnectedEventArgs(peer));
+        }
+
+        protected override void OnPeerDisconnected(NetPeer peer, DisconnectInfo disconnectInfo)
+        {
+            base.OnPeerDisconnected(peer, disconnectInfo);
+
+            connectedPeers.Remove(peer);
+
+            ClientDisconnected?.Invoke(this, new PeerDisconnectedEventArgs(peer, disconnectInfo));
+        }
+
+        protected override void OnConnectionRequest(ConnectionRequest request)
+        {
+            request.AcceptIfKey(Constants.ConnectionKey);
+        }
     }
 }
