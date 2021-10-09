@@ -50,6 +50,7 @@ jobs:
         with:
           unityVersion: ${{ matrix.unityVersion }}
           targetPlatform: ${{ matrix.targetPlatform }}
+          projectPath: NetworkedFlightGame
       # Upload
       - uses: actions/upload-artifact@v2.1.4
         with:
