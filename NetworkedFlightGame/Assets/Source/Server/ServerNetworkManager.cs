@@ -1,7 +1,7 @@
 ﻿using Networking.Server;
 using UnityEngine;
 
-namespace Source
+namespace Source.Server
 {
     public class ServerNetworkManager : MonoBehaviour
     {

@@ -1,6 +1,6 @@
 ﻿using LiteNetLib;
 
-namespace Source
+namespace Source.Server
 {
     public class PlayerConnection
     {

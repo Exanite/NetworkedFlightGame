@@ -1,7 +1,8 @@
 ﻿using Networking.Client;
+using Source.Shared;
 using UnityEngine;
 
-namespace Source
+namespace Source.Client
 {
     public abstract class ClientMonoPacketHandler : MonoPacketHandler
     {
