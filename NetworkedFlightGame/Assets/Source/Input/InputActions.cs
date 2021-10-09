@@ -43,6 +43,22 @@ namespace Source.Input
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Roll"",
+                    ""type"": ""Button"",
+                    ""id"": ""4ebc3848-7271-4ab0-b3a3-84c662f38f04"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Thrust"",
+                    ""type"": ""Button"",
+                    ""id"": ""5c5f066e-8f85-4149-a1ba-13df7dcfcddd"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -166,6 +182,72 @@ namespace Source.Input
                     ""action"": ""Pointer"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""5a5f209a-5ef3-4711-a547-20db28371b46"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Roll"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""7af67b47-cb53-4e2c-99ff-b133813404da"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Roll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""5d5f1826-e3bc-46e7-b905-b8a41a1968bd"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Roll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""f506d830-6884-4c7e-8894-ac20805bfec4"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Thrust"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""29d013b0-b0e9-4c8c-a24c-3293998f575b"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Thrust"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""74b10824-2cf5-4887-9166-1702e8dc93f8"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Thrust"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -194,6 +276,8 @@ namespace Source.Input
             m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
             m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
             m_Player_Pointer = m_Player.FindAction("Pointer", throwIfNotFound: true);
+            m_Player_Roll = m_Player.FindAction("Roll", throwIfNotFound: true);
+            m_Player_Thrust = m_Player.FindAction("Thrust", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -246,6 +330,8 @@ namespace Source.Input
         private readonly InputAction m_Player_Move;
         private readonly InputAction m_Player_Fire;
         private readonly InputAction m_Player_Pointer;
+        private readonly InputAction m_Player_Roll;
+        private readonly InputAction m_Player_Thrust;
         public struct PlayerActions
         {
             private @InputActions m_Wrapper;
@@ -253,6 +339,8 @@ namespace Source.Input
             public InputAction @Move => m_Wrapper.m_Player_Move;
             public InputAction @Fire => m_Wrapper.m_Player_Fire;
             public InputAction @Pointer => m_Wrapper.m_Player_Pointer;
+            public InputAction @Roll => m_Wrapper.m_Player_Roll;
+            public InputAction @Thrust => m_Wrapper.m_Player_Thrust;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -271,6 +359,12 @@ namespace Source.Input
                     @Pointer.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPointer;
                     @Pointer.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPointer;
                     @Pointer.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPointer;
+                    @Roll.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRoll;
+                    @Roll.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRoll;
+                    @Roll.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRoll;
+                    @Thrust.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnThrust;
+                    @Thrust.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnThrust;
+                    @Thrust.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnThrust;
                 }
                 m_Wrapper.m_PlayerActionsCallbackInterface = instance;
                 if (instance != null)
@@ -284,6 +378,12 @@ namespace Source.Input
                     @Pointer.started += instance.OnPointer;
                     @Pointer.performed += instance.OnPointer;
                     @Pointer.canceled += instance.OnPointer;
+                    @Roll.started += instance.OnRoll;
+                    @Roll.performed += instance.OnRoll;
+                    @Roll.canceled += instance.OnRoll;
+                    @Thrust.started += instance.OnThrust;
+                    @Thrust.performed += instance.OnThrust;
+                    @Thrust.canceled += instance.OnThrust;
                 }
             }
         }
@@ -302,6 +402,8 @@ namespace Source.Input
             void OnMove(InputAction.CallbackContext context);
             void OnFire(InputAction.CallbackContext context);
             void OnPointer(InputAction.CallbackContext context);
+            void OnRoll(InputAction.CallbackContext context);
+            void OnThrust(InputAction.CallbackContext context);
         }
     }
 }
