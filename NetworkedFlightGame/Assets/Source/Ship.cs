@@ -2,60 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Source.Input;
 
-public class Ship : MonoBehaviour
+public class Ship : MonoBehaviour, InputActions.IPlayerActions
 {
-    // https://www.youtube.com/watch?v=m5WsmlEOFiA&ab_channel=samyam
-    private PlayerInput playerInput;
-    private InputAction moveAction;
+    public Vector3 velocity;
 
     private void Awake(){
-        playerInput = GetComponent<PlayerInput>();
-        moveAction = playerInput.actions["Movement"];
-        Vector2 m = moveAction.ReadValue<Vector2>();
+        Debug.Log("Awake");
     }
-    // private PlayerActions playerActions;
-    // // private InputAction movement;
-    // private void Awake(){
-    //     playerActions = new PlayerActions();
-    // }
+    
+    public void sanity(){
+        Debug.Log("sanity check");
+    }
 
-    // private void OnEnable(){
-    //     playerActions.Enable();
-    //     // movement = playerActions.Player.Movement;
-    //     // movement.Enable();
-    // }
-
-    // private void OnDisable(){
-    //     playerActions.Disable();
-    //     // movement = playerActions.Player.Movement;
-    //     // movement.Enable();
-    // }
-
-    // public void OnMove(InputAction.CallbackContext context){
-    //     input = context.ReadValue<Vector2>();
-    //     Debug.Log(input)
-    // }
-
-    // // Start is called before the first frame update
-    // void Start()
-    // {
-        
-    // }
-
-    // // public void OnMovement(InputAction.CallbackContext value){
-    // //     Vector 2 inputMovement = value.ReadValue<Vector2>();
-    // //     rawInputMovement = new Vector3(inputMovement.x, 0, inputMovement.y);
-    // // }
-
-    // // Update is called once per frame
-    void Update()
+    public void OnMove(InputAction.CallbackContext context)
     {
-        Vector2 m = moveAction.ReadValue<Vector2>();
-        // transform.position += new Vector3(move.x, 0f, move.y);
-        Debug.Log(m);
-        // Vector2 move = playerActions.PlayerControls.Movement.ReadValue<Vector2>();
-        // transform.position += new Vector3(move.x, 0f, move.y);
-        // Debug.Log(move);
+        var input = context.action.ReadValue<Vector2>();
+        Debug.Log(input);
+
+        // velocity = transform.right * input.x + transform.forward * input.y;
+    }
+
+    public void OnFire(InputAction.CallbackContext context)
+    {
+        Debug.Log("Fire");
+    }
+
+    public void OnPointer(InputAction.CallbackContext context)
+    {
+        Debug.Log("Pointer");
     }
 }

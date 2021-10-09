@@ -12,41 +12,22 @@ namespace Source.Input
         private void Awake()
         {
             actions = new InputActions();
+            Debug.Log(ship);
             actions.Player.SetCallbacks(ship);
-
-            
+            Debug.Log("awake");
         }
 
         private void OnEnable()
         {
+            Debug.Log("Enable");
             actions.Enable();
+            ship.sanity();
         }
 
         private void OnDisable()
         {
+            Debug.Log("Disable");
             actions.Disable();
-        }
-    }
-
-    public class Ship : MonoBehaviour, InputActions.IPlayerActions
-    {
-        public Vector3 velocity;
-        
-        public void OnMove(InputAction.CallbackContext context)
-        {
-            var input = context.action.ReadValue<Vector2>();
-
-            velocity = transform.right * input.x + transform.forward * input.y;
-        }
-
-        public void OnFire(InputAction.CallbackContext context)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void OnPointer(InputAction.CallbackContext context)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }
