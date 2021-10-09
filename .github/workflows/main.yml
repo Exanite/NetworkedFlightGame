@@ -33,7 +33,10 @@ jobs:
       - uses: actions/cache@v2.1.1
         with:
           path: NetworkedFlightGame/Library
-          key: NetworkedFlightGame/Library-${{ matrix.targetPlatform }}
+          key: >-
+            NetworkedFlightGame/Library
+            -${{ matrix.targetPlatform }}
+            -${{ hashFiles('NetworkedFlightGame/Assets/**', 'NetworkedFlightGame/Packages/**', 'NetworkedFlightGame/ProjectSettings/**') }}
           restore-keys: |
             NetworkedFlightGame/Library-
       # Build
