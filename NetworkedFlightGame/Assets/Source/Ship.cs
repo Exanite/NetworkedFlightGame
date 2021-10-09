@@ -12,7 +12,7 @@ public class Ship : MonoBehaviour
     private void Awake(){
         playerInput = GetComponent<PlayerInput>();
         moveAction = playerInput.actions["Movement"];
-        // Vector2 m = moveAction.ReadValue<Vector2>();
+        Vector2 m = moveAction.ReadValue<Vector2>();
     }
     // private PlayerActions playerActions;
     // // private InputAction movement;
@@ -49,13 +49,13 @@ public class Ship : MonoBehaviour
     // // }
 
     // // Update is called once per frame
-    // void Update()
-    // {
-    //     float up = playerActions.PlayerControls.Movement.up.ReadValue<float>();
-    //     // transform.position += new Vector3(move.x, 0f, move.y);
-    //     Debug.Log(up);
-    //     // Vector2 move = playerActions.PlayerControls.Movement.ReadValue<Vector2>();
-    //     // transform.position += new Vector3(move.x, 0f, move.y);
-    //     // Debug.Log(move);
-    // }
+    void Update()
+    {
+        Vector2 m = moveAction.ReadValue<Vector2>();
+        // transform.position += new Vector3(move.x, 0f, move.y);
+        Debug.Log(m);
+        // Vector2 move = playerActions.PlayerControls.Movement.ReadValue<Vector2>();
+        // transform.position += new Vector3(move.x, 0f, move.y);
+        // Debug.Log(move);
+    }
 }
