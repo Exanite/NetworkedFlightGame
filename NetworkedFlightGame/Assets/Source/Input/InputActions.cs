@@ -75,6 +75,14 @@ namespace Source.Input
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Reticle"",
+                    ""type"": ""Button"",
+                    ""id"": ""6a4a226b-94d1-4142-838a-01d81c60e118"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -286,6 +294,17 @@ namespace Source.Input
                     ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bf481311-379f-420b-88b3-485159df179f"",
+                    ""path"": ""<Keyboard>/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Reticle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -318,6 +337,7 @@ namespace Source.Input
             m_Player_Thrust = m_Player.FindAction("Thrust", throwIfNotFound: true);
             m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
             m_Player_QUIT = m_Player.FindAction("QUIT", throwIfNotFound: true);
+            m_Player_Reticle = m_Player.FindAction("Reticle", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -374,6 +394,7 @@ namespace Source.Input
         private readonly InputAction m_Player_Thrust;
         private readonly InputAction m_Player_Look;
         private readonly InputAction m_Player_QUIT;
+        private readonly InputAction m_Player_Reticle;
         public struct PlayerActions
         {
             private @InputActions m_Wrapper;
@@ -385,6 +406,7 @@ namespace Source.Input
             public InputAction @Thrust => m_Wrapper.m_Player_Thrust;
             public InputAction @Look => m_Wrapper.m_Player_Look;
             public InputAction @QUIT => m_Wrapper.m_Player_QUIT;
+            public InputAction @Reticle => m_Wrapper.m_Player_Reticle;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -415,6 +437,9 @@ namespace Source.Input
                     @QUIT.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnQUIT;
                     @QUIT.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnQUIT;
                     @QUIT.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnQUIT;
+                    @Reticle.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReticle;
+                    @Reticle.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReticle;
+                    @Reticle.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReticle;
                 }
                 m_Wrapper.m_PlayerActionsCallbackInterface = instance;
                 if (instance != null)
@@ -440,6 +465,9 @@ namespace Source.Input
                     @QUIT.started += instance.OnQUIT;
                     @QUIT.performed += instance.OnQUIT;
                     @QUIT.canceled += instance.OnQUIT;
+                    @Reticle.started += instance.OnReticle;
+                    @Reticle.performed += instance.OnReticle;
+                    @Reticle.canceled += instance.OnReticle;
                 }
             }
         }
@@ -462,6 +490,7 @@ namespace Source.Input
             void OnThrust(InputAction.CallbackContext context);
             void OnLook(InputAction.CallbackContext context);
             void OnQUIT(InputAction.CallbackContext context);
+            void OnReticle(InputAction.CallbackContext context);
         }
     }
 }

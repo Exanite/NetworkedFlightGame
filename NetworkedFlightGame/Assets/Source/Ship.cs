@@ -4,6 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Source.Input;
+using UnityEngine.UI;
 
 public class Ship : MonoBehaviour, InputActions.IPlayerActions
 {
@@ -15,6 +16,7 @@ public class Ship : MonoBehaviour, InputActions.IPlayerActions
     public float thrust;
 
     Rigidbody rb;
+    public GameObject reticle;
 
     float cursorLockTime = 0;
     private void Awake(){
@@ -25,6 +27,7 @@ public class Ship : MonoBehaviour, InputActions.IPlayerActions
 
     public void OnMove(InputAction.CallbackContext context)
     {
+        // W, A, S, D Keys
         var input = context.action.ReadValue<Vector2>();
         vflags.x = input.x;
         vflags.y = input.y;
@@ -32,17 +35,20 @@ public class Ship : MonoBehaviour, InputActions.IPlayerActions
 
     public void OnThrust(InputAction.CallbackContext context)
     {
+        // R, F Keys
         var input = context.action.ReadValue<float>();
         vflags.z = -input;
     }
 
     public void OnRoll(InputAction.CallbackContext context)
     {
+        // Q, E Keys
         var input = context.action.ReadValue<float>();
         qflags.z = -input;
     }
 
     public void OnLook(InputAction.CallbackContext context){
+        // Mouse Move
         var input = context.action.ReadValue<Vector2>();
         qflags.x = input.x;
         qflags.y = -input.y;
@@ -50,6 +56,7 @@ public class Ship : MonoBehaviour, InputActions.IPlayerActions
 
     public void OnFire(InputAction.CallbackContext context)
     {
+        // Left Click
         Debug.Log("Fire");
     }
 
@@ -59,8 +66,28 @@ public class Ship : MonoBehaviour, InputActions.IPlayerActions
         qflags = new Vector3(0f,0f,0f);
     }
 
+    public void OnReticle(InputAction.CallbackContext context)
+    {
+        // Y Key
+        // Debug.Log("toggle reticle");
+        foreach (Transform child in reticle.transform)
+        {
+            Color on  = new Color(1f,1f,1f,0.3f);
+            Color off = new Color(1f,1f,1f,0.0f);
+            if(child.GetComponent<RawImage>()){
+                RawImage ri = child.GetComponent<RawImage>();
+                ri.color = ri.color.a < 0.1f ? on : off;
+            }
+            if(child.GetComponent<Text>()){
+                Text t = child.GetComponent<Text>();
+                t.color = t.color.a < 0.1f ? on : off;
+            }
+        }
+    }
+
     public void OnQUIT(InputAction.CallbackContext context)
     {
+        // Escape Key
         Debug.Log("Quitting Unity");
         Application.Quit();
     }
