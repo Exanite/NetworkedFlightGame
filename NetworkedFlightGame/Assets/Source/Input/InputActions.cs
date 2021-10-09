@@ -59,6 +59,22 @@ namespace Source.Input
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Look"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""02570c8f-c264-4abd-ad45-784f32d512e4"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""QUIT"",
+                    ""type"": ""Button"",
+                    ""id"": ""407f1100-6128-48b7-b933-a4b6bc4a8ccd"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -248,6 +264,28 @@ namespace Source.Input
                     ""action"": ""Thrust"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ce2c61e8-d8fa-4a6d-a6b8-3b7600fedc91"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""QUIT"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b47d452b-c6e7-4bbd-8bdd-2663004858e2"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -278,6 +316,8 @@ namespace Source.Input
             m_Player_Pointer = m_Player.FindAction("Pointer", throwIfNotFound: true);
             m_Player_Roll = m_Player.FindAction("Roll", throwIfNotFound: true);
             m_Player_Thrust = m_Player.FindAction("Thrust", throwIfNotFound: true);
+            m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
+            m_Player_QUIT = m_Player.FindAction("QUIT", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -332,6 +372,8 @@ namespace Source.Input
         private readonly InputAction m_Player_Pointer;
         private readonly InputAction m_Player_Roll;
         private readonly InputAction m_Player_Thrust;
+        private readonly InputAction m_Player_Look;
+        private readonly InputAction m_Player_QUIT;
         public struct PlayerActions
         {
             private @InputActions m_Wrapper;
@@ -341,6 +383,8 @@ namespace Source.Input
             public InputAction @Pointer => m_Wrapper.m_Player_Pointer;
             public InputAction @Roll => m_Wrapper.m_Player_Roll;
             public InputAction @Thrust => m_Wrapper.m_Player_Thrust;
+            public InputAction @Look => m_Wrapper.m_Player_Look;
+            public InputAction @QUIT => m_Wrapper.m_Player_QUIT;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -365,6 +409,12 @@ namespace Source.Input
                     @Thrust.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnThrust;
                     @Thrust.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnThrust;
                     @Thrust.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnThrust;
+                    @Look.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
+                    @Look.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
+                    @Look.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
+                    @QUIT.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnQUIT;
+                    @QUIT.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnQUIT;
+                    @QUIT.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnQUIT;
                 }
                 m_Wrapper.m_PlayerActionsCallbackInterface = instance;
                 if (instance != null)
@@ -384,6 +434,12 @@ namespace Source.Input
                     @Thrust.started += instance.OnThrust;
                     @Thrust.performed += instance.OnThrust;
                     @Thrust.canceled += instance.OnThrust;
+                    @Look.started += instance.OnLook;
+                    @Look.performed += instance.OnLook;
+                    @Look.canceled += instance.OnLook;
+                    @QUIT.started += instance.OnQUIT;
+                    @QUIT.performed += instance.OnQUIT;
+                    @QUIT.canceled += instance.OnQUIT;
                 }
             }
         }
@@ -404,6 +460,8 @@ namespace Source.Input
             void OnPointer(InputAction.CallbackContext context);
             void OnRoll(InputAction.CallbackContext context);
             void OnThrust(InputAction.CallbackContext context);
+            void OnLook(InputAction.CallbackContext context);
+            void OnQUIT(InputAction.CallbackContext context);
         }
     }
 }

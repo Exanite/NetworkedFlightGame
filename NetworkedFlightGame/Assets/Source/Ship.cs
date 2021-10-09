@@ -7,23 +7,19 @@ using Source.Input;
 
 public class Ship : MonoBehaviour, InputActions.IPlayerActions
 {
-    public Vector3 velocity;
-    public Quaternion qvelocity;
+
     public Vector3 vflags;
     public Vector3 qflags;
 
-    [Range(0.0001f, 0.001f)]
-    public float speed;
+    [Range(1f, 100f)]
+    public float thrust;
 
-    [Range(0.001f, 0.1f)]
-    public float drag;
+    Rigidbody rb;
 
     private void Awake(){
         vflags = new Vector3(0f,0f,0f);
-    }
-    
-    public void sanity(){
-        Debug.Log("sanity check");
+        rb = GetComponent<Rigidbody>();
+        rb.maxAngularVelocity = 2f;
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -36,12 +32,19 @@ public class Ship : MonoBehaviour, InputActions.IPlayerActions
     public void OnThrust(InputAction.CallbackContext context)
     {
         var input = context.action.ReadValue<float>();
-        vflags.z = input;
+        vflags.z = -input;
     }
 
     public void OnRoll(InputAction.CallbackContext context)
     {
-        Debug.Log("Roll");
+        var input = context.action.ReadValue<float>();
+        qflags.z = -input;
+    }
+
+    public void OnLook(InputAction.CallbackContext context){
+        var input = context.action.ReadValue<Vector2>();
+        qflags.x = input.x;
+        qflags.y = -input.y;
     }
 
     public void OnFire(InputAction.CallbackContext context)
@@ -51,18 +54,38 @@ public class Ship : MonoBehaviour, InputActions.IPlayerActions
 
     public void OnPointer(InputAction.CallbackContext context)
     {
-        Debug.Log("Pointer");
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
-    public void vdt(){
-        transform.position += velocity;
-        velocity += speed * (transform.right * vflags.x 
-                            + transform.up * vflags.y 
-                            + transform.forward * vflags.z);
-        velocity *= (1-drag);
+    public void OnQUIT(InputAction.CallbackContext context)
+    {
+        Debug.Log("Quitting Unity");
+        Application.Quit();
+    }
+
+    public void addImpulse(){
+        Vector3 f = thrust * 100 * (transform.right * vflags.x 
+                + transform.up * vflags.z 
+                + transform.forward * vflags.y);
+        rb.AddForce( f * Time.deltaTime );
+    }
+
+    public void addTorque(float scale, Vector3 dir, float a){
+        // Vector3 t = new Vector3(qflags.x, qflags.y, 0);
+        float maxTorque = 4;
+        float t = a * scale;
+        t = Mathf.Clamp(-maxTorque, t, maxTorque);
+        rb.AddRelativeTorque( dir * t * Time.deltaTime );
+    }
+
+    public void addTorques(){
+        addTorque(1.0f, Vector3.up, qflags.x); //left right
+        addTorque(1.0f, Vector3.right, qflags.y); //up down
+        addTorque(4.0f, Vector3.forward, qflags.z); //roll
     }
 
     public void Update(){
-        vdt();
+        addImpulse();
+        addTorques();
     }
 }
