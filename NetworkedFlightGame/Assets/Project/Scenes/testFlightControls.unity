@@ -823,39 +823,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1628057290}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Script: {fileID: 11500000, guid: d7b598e4fd2f496c969d3914b2b3186b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 6d194e886b2ce34408213bf3f810a0a6, type: 3}
-  m_NotificationBehavior: 2
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents:
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 342bdda2-5fdf-4d7c-aeee-68b859662ea1
-    m_ActionName: Player/Move[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: a4cc4769-d932-4f26-92c6-becfa8e568f3
-    m_ActionName: Player/Fire[/Mouse/leftButton]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 71d4fbf6-36ea-4bc6-b702-9cb7ea8f2ab5
-    m_ActionName: Player/Pointer[/Mouse/position]
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: Keyboard&Mouse
-  m_DefaultActionMap: Player
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
+  ship: {fileID: 1628057293}
 --- !u!114 &1628057293
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -868,6 +839,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2722a4419552b65690cd101dbd61a23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  velocity: {x: 0, y: 0, z: 0}
 --- !u!1 &1688208267
 GameObject:
   m_ObjectHideFlags: 0
