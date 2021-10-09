@@ -7,11 +7,14 @@ namespace Source.Shared
 {
     public abstract class MonoPacketHandler : MonoBehaviour, IPacketHandler
     {
+        [Header("Dependencies")]
+        public EventBus eventBus;
+
         protected NetDataWriter cachedWriter;
 
         public abstract int HandlerId { get; }
 
-        protected virtual void Awake()
+        public virtual void Initialize()
         {
             cachedWriter = new NetDataWriter();
         }

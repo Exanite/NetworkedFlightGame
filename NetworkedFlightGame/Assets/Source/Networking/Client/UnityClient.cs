@@ -65,11 +65,11 @@ namespace Networking.Client
             IsConnected = false;
             IsConnecting = false;
         }
-        
+
         public void SendAsPacketHandlerToServer(IPacketHandler handler, NetDataWriter writer, DeliveryMethod deliveryMethod)
         {
             ValidateIsReadyToSend();
-            
+
             WritePacketHandlerDataToCachedWriter(handler, writer);
             Server.Send(cachedWriter, deliveryMethod);
         }
@@ -77,7 +77,7 @@ namespace Networking.Client
         protected override void OnPeerConnected(NetPeer server)
         {
             base.OnPeerConnected(server);
-            
+
             Connected?.Invoke(this, new ConnectedEventArgs(server));
 
             IsConnecting = false;
@@ -89,7 +89,7 @@ namespace Networking.Client
         protected override void OnPeerDisconnected(NetPeer server, DisconnectInfo disconnectInfo)
         {
             base.OnPeerDisconnected(server, disconnectInfo);
-            
+
             if (IsConnected)
             {
                 Disconnected?.Invoke(this, new DisconnectedEventArgs(server, disconnectInfo));

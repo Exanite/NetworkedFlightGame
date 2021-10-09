@@ -7,19 +7,21 @@ namespace Source.Server
     public class ServerJoinRequestHandler : ServerMonoPacketHandler
     {
         public ServerPlayerConnectionManager playerConnectionManager;
-        
-        public override int HandlerId => (int)Handlers.JoinRequest;
-        
+
+        public override int HandlerId => (int) Handlers.JoinRequest;
+
         public override void Receive(NetPeer peer, NetPacketReader reader, DeliveryMethod deliveryMethod)
         {
-            var playerName = reader.GetString();
-            
-            var isConflict = 
+            var joinRequest = reader.Get<ClientJoinRequest>();
+            var playerName = joinRequest.PlayerName;
+
+            var isConflict =
                 playerConnectionManager.PlayerConnections.FirstOrDefault(x => x.playerName == playerName) != null;
 
             if (isConflict)
             {
                 OnJoinFailed(peer);
+
                 return;
             }
 
@@ -31,18 +33,18 @@ namespace Source.Server
             cachedWriter.Reset();
             cachedWriter.Put(false);
             cachedWriter.Put("Another player has the same name");
-            
-            server.SendAsPacketHandlerToAll(this, cachedWriter, DeliveryMethod.ReliableOrdered);
+
+            server.SendAsPacketHandler(this, peer, cachedWriter, DeliveryMethod.ReliableOrdered);
         }
-        
+
         private void OnJoinSucceeded(NetPeer peer, string playerName)
         {
             playerConnectionManager.AddPlayerConnection(peer, playerName);
-            
+
             cachedWriter.Reset();
             cachedWriter.Put(true);
-            
-            server.SendAsPacketHandlerToAll(this, cachedWriter, DeliveryMethod.ReliableOrdered);
+
+            server.SendAsPacketHandler(this, peer, cachedWriter, DeliveryMethod.ReliableOrdered);
         }
     }
 }

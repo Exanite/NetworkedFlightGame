@@ -1,33 +1,36 @@
 ﻿using System.Net;
 using Cysharp.Threading.Tasks;
 using Networking.Client;
+using Source.Shared;
 using UnityEngine;
 
 namespace Source.Client
 {
-    public class ClientNetworkManager : MonoBehaviour
+    public class ClientNetworkManager : MonoNetManager<UnityClient, ClientMonoPacketHandler>
     {
-        public UnityClient client;
+        [Header("Settings")]
         public int port = 17175;
-
         public string playerName = "Player";
-        
-        public ClientJoinRequestHandler joinRequestHandler;
-        
-        private async UniTask Start()
+
+        protected override async UniTask Initialize()
         {
-            client.RegisterPacketHandler(joinRequestHandler);
+            await base.Initialize();
 
-            var connectResult = await client.ConnectAsync(new IPEndPoint(IPAddress.Loopback, port));
+            Debug.Log("Client starting");
 
-            Debug.Log(connectResult.IsSuccess);
+            var connectResult = await network.ConnectAsync(new IPEndPoint(IPAddress.Loopback, port));
+
+            Debug.Log($"Connect isSuccess: {connectResult.IsSuccess}");
 
             if (!connectResult.IsSuccess)
             {
                 return;
             }
-            
-            joinRequestHandler.SendJoinRequest(playerName);
+
+            eventBus.PushEvent(new ClientJoinRequest
+            {
+                PlayerName = playerName,
+            });
         }
     }
 }
