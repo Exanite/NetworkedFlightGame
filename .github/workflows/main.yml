@@ -34,12 +34,15 @@ jobs:
         with:
           path: NetworkedFlightGame/Library
           key: >-
-            NetworkedFlightGame/Library
+            'NetworkedFlightGame/Library
             -${{ matrix.targetPlatform }}
             -${{ matrix.unityVersion }}
-            -${{ hashFiles('NetworkedFlightGame/Assets/**', 'NetworkedFlightGame/Packages/**', 'NetworkedFlightGame/ProjectSettings/**') }}
-          restore-keys: |
-            NetworkedFlightGame/Library-
+            -${{ hashFiles('NetworkedFlightGame/Assets/**', 'NetworkedFlightGame/Packages/**', 'NetworkedFlightGame/ProjectSettings/**') }}'
+          restore-keys: >-
+            'NetworkedFlightGame/Library
+            -${{ matrix.targetPlatform }}
+            -${{ matrix.unityVersion }}
+            -${{ hashFiles('NetworkedFlightGame/Assets/**', 'NetworkedFlightGame/Packages/**', 'NetworkedFlightGame/ProjectSettings/**') }}'
       # Build
       - uses: game-ci/unity-builder@v2
         env:
