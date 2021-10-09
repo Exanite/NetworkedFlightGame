@@ -94,9 +94,9 @@ namespace Source.UI
             {
                 field.text = defaultValue;
             }
-            
+
             field.onValueChanged.AddListener(onChanged);
-            
+
             onChanged(field.text);
         }
     }
