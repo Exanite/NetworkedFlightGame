@@ -8,13 +8,14 @@ using Source.Input;
 public class Ship : MonoBehaviour, InputActions.IPlayerActions
 {
     public Vector3 velocity;
-    // public Quaternion velocity;
+    public Quaternion qvelocity;
     public Vector3 vflags;
+    public Vector3 qflags;
 
-    [Range(0.00001f, 0.01f)]
+    [Range(0.0001f, 0.001f)]
     public float speed;
 
-    [Range(0.01f, 0.95f)]
+    [Range(0.001f, 0.1f)]
     public float drag;
 
     private void Awake(){
@@ -57,7 +58,7 @@ public class Ship : MonoBehaviour, InputActions.IPlayerActions
         transform.position += velocity;
         velocity += speed * (transform.right * vflags.x 
                             + transform.up * vflags.y 
-                            + transform.forward * vflags.z * 10);
+                            + transform.forward * vflags.z);
         velocity *= (1-drag);
     }
 
