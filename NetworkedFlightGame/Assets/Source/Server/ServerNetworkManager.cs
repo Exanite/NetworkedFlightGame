@@ -1,20 +1,22 @@
-﻿using Networking.Server;
+﻿using Cysharp.Threading.Tasks;
+using Networking.Server;
+using Source.Shared;
 using UnityEngine;
 
 namespace Source.Server
 {
-    public class ServerNetworkManager : MonoBehaviour
+    public class ServerNetworkManager : MonoNetManager<UnityServer, ServerMonoPacketHandler>
     {
-        public UnityServer server;
+        [Header("Settings")]
         public int port = 17175;
 
-        public ServerJoinRequestHandler joinRequestHandler;
-
-        private void Start()
+        protected override async UniTask Initialize()
         {
-            server.RegisterPacketHandler(joinRequestHandler);
+            await base.Initialize();
 
-            server.Create(port);
+            Debug.Log("Server starting");
+
+            network.Create(port);
         }
     }
 }

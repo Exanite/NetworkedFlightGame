@@ -14,7 +14,7 @@ namespace Source.Shared
 
         public abstract int HandlerId { get; }
 
-        protected virtual void Awake()
+        public virtual void Initialize()
         {
             cachedWriter = new NetDataWriter();
         }

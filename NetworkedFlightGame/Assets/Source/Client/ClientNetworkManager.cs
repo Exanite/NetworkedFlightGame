@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Net;
+﻿using System.Net;
 using Cysharp.Threading.Tasks;
 using Networking.Client;
 using Source.Shared;
@@ -7,29 +6,21 @@ using UnityEngine;
 
 namespace Source.Client
 {
-    public class ClientNetworkManager : MonoBehaviour
+    public class ClientNetworkManager : MonoNetManager<UnityClient, ClientMonoPacketHandler>
     {
-        [Header("Dependencies")]
-        public EventBus eventBus;
-        public UnityClient client;
-
-        [Space]
-        public List<ClientMonoPacketHandler> packetHandlers;
-
         [Header("Settings")]
         public int port = 17175;
         public string playerName = "Player";
 
-        private async UniTask Start()
+        protected override async UniTask Initialize()
         {
-            foreach (var packetHandler in packetHandlers)
-            {
-                client.RegisterPacketHandler(packetHandler);
-            }
+            await base.Initialize();
 
-            var connectResult = await client.ConnectAsync(new IPEndPoint(IPAddress.Loopback, port));
+            Debug.Log("Client starting");
 
-            Debug.Log(connectResult.IsSuccess);
+            var connectResult = await network.ConnectAsync(new IPEndPoint(IPAddress.Loopback, port));
+
+            Debug.Log($"Connect isSuccess: {connectResult.IsSuccess}");
 
             if (!connectResult.IsSuccess)
             {

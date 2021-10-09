@@ -7,11 +7,11 @@ namespace Source.Client
     public class ClientJoinRequestHandler : ClientMonoPacketHandler, IEventListener<ClientJoinRequest>
     {
         public override int HandlerId => (int) Handlers.JoinRequest;
-
-        protected override void Awake()
+        
+        public override void Initialize()
         {
-            base.Awake();
-
+            base.Initialize();
+            
             eventBus.AddListener(this);
         }
 
