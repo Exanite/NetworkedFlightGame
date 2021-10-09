@@ -1,7 +1,8 @@
 ﻿using System.Linq;
 using LiteNetLib;
+using Source.Shared;
 
-namespace Source
+namespace Source.Server
 {
     public class ServerJoinRequestHandler : ServerMonoPacketHandler
     {

@@ -3,7 +3,7 @@ using Cysharp.Threading.Tasks;
 using Networking.Client;
 using UnityEngine;
 
-namespace Source
+namespace Source.Client
 {
     public class ClientNetworkManager : MonoBehaviour
     {

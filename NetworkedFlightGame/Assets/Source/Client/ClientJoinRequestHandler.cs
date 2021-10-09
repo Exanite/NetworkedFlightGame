@@ -1,7 +1,8 @@
 ﻿using LiteNetLib;
+using Source.Shared;
 using UnityEngine;
 
-namespace Source
+namespace Source.Client
 {
     public class ClientJoinRequestHandler : ClientMonoPacketHandler
     {

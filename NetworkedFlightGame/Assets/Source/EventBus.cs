@@ -6,6 +6,8 @@ namespace Source
 {
     public class EventBus : MonoBehaviour
     {
+        public bool shouldLogEvents;
+        
         private Dictionary<Type, List<object>> listenerLists;
 
         private void Awake()
@@ -37,6 +39,11 @@ namespace Source
 
         public void PushEvent<T>(T e) where T : Event
         {
+            if (shouldLogEvents)
+            {
+                Debug.Log(e);
+            }
+            
             var type = typeof(T);
 
             if (!listenerLists.TryGetValue(type, out var listenerList))
@@ -53,7 +60,7 @@ namespace Source
 
     public interface IEventListener<in T> where T : Event
     {
-        void On<T>(T e);
+        void On(T e);
     }
 
     public abstract class Event { }

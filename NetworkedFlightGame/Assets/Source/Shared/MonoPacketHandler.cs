@@ -3,7 +3,7 @@ using LiteNetLib.Utils;
 using Networking;
 using UnityEngine;
 
-namespace Source
+namespace Source.Shared
 {
     public abstract class MonoPacketHandler : MonoBehaviour, IPacketHandler
     {

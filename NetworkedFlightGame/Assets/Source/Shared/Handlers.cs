@@ -1,4 +1,4 @@
-﻿namespace Source
+﻿namespace Source.Shared
 {
     public enum Handlers
     {
