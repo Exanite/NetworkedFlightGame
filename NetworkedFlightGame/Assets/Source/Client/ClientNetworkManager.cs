@@ -1,22 +1,31 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using Cysharp.Threading.Tasks;
 using Networking.Client;
+using Source.Shared;
 using UnityEngine;
 
 namespace Source.Client
 {
     public class ClientNetworkManager : MonoBehaviour
     {
+        [Header("Dependencies")]
+        public EventBus eventBus;
         public UnityClient client;
-        public int port = 17175;
 
+        [Space]
+        public List<ClientMonoPacketHandler> packetHandlers;
+
+        [Header("Settings")]
+        public int port = 17175;
         public string playerName = "Player";
-        
-        public ClientJoinRequestHandler joinRequestHandler;
-        
+
         private async UniTask Start()
         {
-            client.RegisterPacketHandler(joinRequestHandler);
+            foreach (var packetHandler in packetHandlers)
+            {
+                client.RegisterPacketHandler(packetHandler);
+            }
 
             var connectResult = await client.ConnectAsync(new IPEndPoint(IPAddress.Loopback, port));
 
@@ -26,8 +35,11 @@ namespace Source.Client
             {
                 return;
             }
-            
-            joinRequestHandler.SendJoinRequest(playerName);
+
+            eventBus.PushEvent(new ClientJoinRequest
+            {
+                PlayerName = playerName,
+            });
         }
     }
 }

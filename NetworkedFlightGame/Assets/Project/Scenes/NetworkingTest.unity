@@ -133,6 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 117500768}
   - component: {fileID: 117500767}
+  - component: {fileID: 117500771}
   - component: {fileID: 117500770}
   - component: {fileID: 117500769}
   m_Layer: 0
@@ -180,6 +181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be8c698f62fe413fb954d00ec196846c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventBus: {fileID: 117500771}
   client: {fileID: 117500767}
 --- !u!114 &117500770
 MonoBehaviour:
@@ -193,10 +195,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94ec75093fe9445f8eec98f8b562f12f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventBus: {fileID: 117500771}
   client: {fileID: 117500767}
+  packetHandlers:
+  - {fileID: 117500769}
   port: 17175
   playerName: Player
-  joinRequestHandler: {fileID: 117500769}
+--- !u!114 &117500771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 117500766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dde7f9d0147547058631aca6abdb53f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  logPrefix: '[Client]'
+  shouldLogEvents: 1
 --- !u!1 &495208940
 GameObject:
   m_ObjectHideFlags: 0
@@ -300,10 +318,10 @@ GameObject:
   m_Component:
   - component: {fileID: 628597636}
   - component: {fileID: 628597635}
+  - component: {fileID: 628597640}
   - component: {fileID: 628597639}
   - component: {fileID: 628597638}
   - component: {fileID: 628597637}
-  - component: {fileID: 628597640}
   m_Layer: 0
   m_Name: Server
   m_TagString: Untagged
@@ -362,6 +380,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ebea18211f44a63b32fa8ba9b376049, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventBus: {fileID: 628597640}
   server: {fileID: 628597635}
   playerConnectionManager: {fileID: 628597637}
 --- !u!114 &628597639
@@ -391,6 +410,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dde7f9d0147547058631aca6abdb53f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  logPrefix: '[Server]'
   shouldLogEvents: 1
 --- !u!1 &860412012
 GameObject:

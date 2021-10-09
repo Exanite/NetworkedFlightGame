@@ -12,7 +12,7 @@ namespace Source.Server
             this.peer = peer;
             this.playerName = playerName;
         }
-        
+
         public int Id => peer.Id;
     }
 }

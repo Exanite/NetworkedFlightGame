@@ -4,19 +4,24 @@ using UnityEngine;
 
 namespace Source.Client
 {
-    public class ClientJoinRequestHandler : ClientMonoPacketHandler
+    public class ClientJoinRequestHandler : ClientMonoPacketHandler, IEventListener<ClientJoinRequest>
     {
-        public override int HandlerId => (int)Handlers.JoinRequest;
+        public override int HandlerId => (int) Handlers.JoinRequest;
 
-        public void SendJoinRequest(string playerName)
+        protected override void Awake()
         {
-            cachedWriter.Reset();
-            
-            cachedWriter.Put(playerName);
-            
+            base.Awake();
+
+            eventBus.AddListener(this);
+        }
+
+        public void On(ClientJoinRequest e)
+        {
+            cachedWriter.Put(e);
+
             client.SendAsPacketHandlerToServer(this, cachedWriter, DeliveryMethod.ReliableOrdered);
         }
-        
+
         public override void Receive(NetPeer peer, NetPacketReader reader, DeliveryMethod deliveryMethod)
         {
             var hasJoinSucceeded = reader.GetBool();
@@ -24,7 +29,7 @@ namespace Source.Client
             if (!hasJoinSucceeded)
             {
                 var reason = reader.GetString();
-                
+
                 Debug.LogWarning($"Failed to join server. Reason: '{reason}'");
 
                 return;
