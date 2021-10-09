@@ -1,27 +1,17 @@
 ﻿using System;
 using LiteNetLib;
 
-/// <summary>
-///     Arguments for server PeerDisconnected events
-/// </summary>
-public class PeerDisconnectedEventArgs : EventArgs
+namespace Networking.Server
 {
-    /// <summary>
-    ///     Creates a new <see cref="PeerDisconnectedEventArgs"/>
-    /// </summary>
-    public PeerDisconnectedEventArgs(NetPeer peer, DisconnectInfo disconnectInfo)
+    public class PeerDisconnectedEventArgs : EventArgs
     {
-        this.Peer = peer;
-        this.DisconnectInfo = disconnectInfo;
+        public PeerDisconnectedEventArgs(NetPeer peer, DisconnectInfo disconnectInfo)
+        {
+            Peer = peer;
+            DisconnectInfo = disconnectInfo;
+        }
+
+        public NetPeer Peer { get; }
+        public DisconnectInfo DisconnectInfo { get; }
     }
-
-    /// <summary>
-    ///     The <see cref="NetPeer"/> that disconnected from the server
-    /// </summary>
-    public NetPeer Peer { get; }
-
-    /// <summary>
-    ///     Additional information about the disconnection
-    /// </summary>
-    public DisconnectInfo DisconnectInfo { get; }
 }

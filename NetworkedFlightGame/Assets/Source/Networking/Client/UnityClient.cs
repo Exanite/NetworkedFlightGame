@@ -2,190 +2,109 @@
 using System.Net;
 using Cysharp.Threading.Tasks;
 using LiteNetLib;
-using UnityEngine;
+using LiteNetLib.Utils;
 
-/// <summary>
-///     Client that can be used to connect to a
-///     <see cref="UnityServer"/>
-/// </summary>
-public class UnityClient : UnityNetwork, ISerializationCallbackReceiver
+namespace Networking.Client
 {
-    [Header("Client:")]
-    [SerializeField]
-    private string address = IPAddress.Loopback.ToString();
-    [SerializeField]
-    private ushort port = Constants.DefaultPort;
-
-    private IPAddress ipAddress;
-    private DisconnectInfo previousDisconnectInfo;
-
-    /// <summary>
-    ///     Event fired when the <see cref="UnityClient"/> is connected to
-    ///     the server
-    /// </summary>
-    public event EventHandler<UnityClient, ConnectedEventArgs> ConnectedEvent;
-
-    /// <summary>
-    ///     Event fired when the client is disconnected from the server
-    /// </summary>
-    public event EventHandler<UnityClient, DisconnectedEventArgs> DisconnectedEvent;
-
-    /// <summary>
-    ///     The IP Address of the server the client will connect to
-    /// </summary>
-    public IPAddress IPAddress
+    public class UnityClient : UnityNetwork
     {
-        get => ipAddress;
+        private DisconnectInfo previousDisconnectInfo;
 
-        set
+        public NetPeer Server { get; private set; }
+
+        public bool IsConnecting { get; private set; }
+        public bool IsConnected { get; private set; }
+        public override bool IsReady => IsConnected;
+
+        public event EventHandler<UnityClient, ConnectedEventArgs> Connected;
+        public event EventHandler<UnityClient, DisconnectedEventArgs> Disconnected;
+
+        private void OnDestroy()
         {
-            ipAddress = value;
-            address = value.ToString();
-        }
-    }
-
-    /// <summary>
-    ///     The port on the server the client will connect to
-    /// </summary>
-    public ushort Port
-    {
-        get => port;
-
-        set => port = value;
-    }
-
-    /// <summary>
-    ///     Is the client currently connecting to the server?
-    /// </summary>
-    public bool IsConnecting { get; private set; }
-
-    /// <summary>
-    ///     Is the client connected to the server?
-    /// </summary>
-    public bool IsConnected { get; private set; }
-
-    /// <summary>
-    ///     The <see cref="NetPeer"/> representing the server
-    /// </summary>
-    public NetPeer Server { get; private set; }
-
-    protected override bool IsReady => IsConnected;
-
-    private void OnDestroy()
-    {
-        Disconnect(false);
-    }
-
-    /// <summary>
-    ///     Connects to the server asynchronously
-    /// </summary>
-    public async UniTask<ConnectResult> ConnectAsync()
-    {
-        if (IsConnected)
-        {
-            throw new InvalidOperationException("Client is already connected.");
+            Disconnect(false);
         }
 
-        if (IsConnecting)
+        public async UniTask<ConnectResult> ConnectAsync(IPEndPoint endPoint)
         {
-            throw new InvalidOperationException("Client is already connecting.");
+            if (IsConnected)
+            {
+                throw new InvalidOperationException("Client is already connected.");
+            }
+
+            if (IsConnecting)
+            {
+                throw new InvalidOperationException("Client is already connecting.");
+            }
+
+            IsConnecting = true;
+
+            netManager.Start();
+            netManager.Connect(endPoint, Constants.ConnectionKey);
+
+            await UniTask.WaitUntil(() => !IsConnecting);
+
+            return new ConnectResult(IsConnected, previousDisconnectInfo.Reason.ToString());
         }
 
-        IsConnecting = true;
-
-        netManager.Start();
-        netManager.Connect(new IPEndPoint(IPAddress, Port), Constants.ConnectionKey);
-
-        await UniTask.WaitUntil(() => !IsConnecting);
-
-        return new ConnectResult(IsConnected, previousDisconnectInfo.Reason.ToString());
-    }
-
-    /// <summary>
-    ///     Disconnects from the server
-    /// </summary>
-    public void Disconnect()
-    {
-        Disconnect(true);
-    }
-
-    /// <summary>
-    ///     Sends a packet to the server
-    /// </summary>
-    public void SendPacketToServer<T>(T packet, DeliveryMethod deliveryMethod) where T : class, IPacket, new()
-    {
-        SendPacket(Server, packet, deliveryMethod);
-    }
-
-    /// <summary>
-    ///     Disconnects from the server
-    /// </summary>
-    /// <param name="pollEvents">
-    ///     Should events be polled?
-    ///     <para/>
-    ///     Note: Should be <see langword="false"/> if called when the
-    ///     <see cref="Application"/> is quitting
-    /// </param>
-    protected void Disconnect(bool pollEvents)
-    {
-        netManager.DisconnectAll();
-
-        if (pollEvents)
+        public void Disconnect()
         {
-            netManager.PollEvents();
+            Disconnect(true);
         }
 
-        netManager.Stop();
-
-        IsConnected = false;
-        IsConnecting = false;
-    }
-
-    protected override void OnPeerConnected(NetPeer server)
-    {
-        ConnectedEvent?.Invoke(this, new ConnectedEventArgs(server));
-
-        IsConnecting = false;
-        IsConnected = true;
-
-        Server = server;
-    }
-
-    protected override void OnPeerDisconnected(NetPeer server, DisconnectInfo disconnectInfo)
-    {
-        if (IsConnected)
+        protected void Disconnect(bool pollEvents)
         {
-            DisconnectedEvent?.Invoke(this, new DisconnectedEventArgs(server, disconnectInfo));
+            netManager.DisconnectAll();
+
+            if (pollEvents)
+            {
+                netManager.PollEvents();
+            }
+
+            netManager.Stop();
+
+            IsConnected = false;
+            IsConnecting = false;
+        }
+        
+        public void SendAsPacketHandlerToAll(IPacketHandler handler, NetDataWriter writer, DeliveryMethod deliveryMethod)
+        {
+            ValidateIsReadyToSend();
+            
+            WritePacketHandlerDataToCachedWriter(handler, writer);
+            Server.Send(cachedWriter, deliveryMethod);
         }
 
-        IsConnecting = false;
-        IsConnected = false;
-
-        Server = null;
-        previousDisconnectInfo = disconnectInfo;
-    }
-
-    protected override void OnNetworkReceive(NetPeer peer, NetPacketReader reader, DeliveryMethod deliveryMethod)
-    {
-        netPacketProcessor.ReadAllPackets(reader, peer);
-        reader.Recycle();
-    }
-
-    protected override void OnConnectionRequest(ConnectionRequest request)
-    {
-        request.Reject();
-    }
-
-    void ISerializationCallbackReceiver.OnBeforeSerialize()
-    {
-        if (IPAddress != null)
+        protected override void OnPeerConnected(NetPeer server)
         {
-            address = IPAddress.ToString();
-        }
-    }
+            base.OnPeerConnected(server);
+            
+            Connected?.Invoke(this, new ConnectedEventArgs(server));
 
-    void ISerializationCallbackReceiver.OnAfterDeserialize()
-    {
-        IPAddress = IPAddress.Parse(address);
+            IsConnecting = false;
+            IsConnected = true;
+
+            Server = server;
+        }
+
+        protected override void OnPeerDisconnected(NetPeer server, DisconnectInfo disconnectInfo)
+        {
+            base.OnPeerDisconnected(server, disconnectInfo);
+            
+            if (IsConnected)
+            {
+                Disconnected?.Invoke(this, new DisconnectedEventArgs(server, disconnectInfo));
+            }
+
+            IsConnecting = false;
+            IsConnected = false;
+
+            Server = null;
+            previousDisconnectInfo = disconnectInfo;
+        }
+
+        protected override void OnConnectionRequest(ConnectionRequest request)
+        {
+            request.Reject();
+        }
     }
 }

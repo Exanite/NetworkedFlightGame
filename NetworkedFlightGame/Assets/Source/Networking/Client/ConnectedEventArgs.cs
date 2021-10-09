@@ -1,21 +1,15 @@
 ﻿using System;
 using LiteNetLib;
 
-/// <summary>
-///     Arguments for client Connected events
-/// </summary>
-public class ConnectedEventArgs : EventArgs
+namespace Networking.Client
 {
-    /// <summary>
-    ///     Creates a new <see cref="ConnectedEventArgs"/>
-    /// </summary>
-    public ConnectedEventArgs(NetPeer server)
+    public class ConnectedEventArgs : EventArgs
     {
-        this.Server = server;
-    }
+        public ConnectedEventArgs(NetPeer server)
+        {
+            Server = server;
+        }
 
-    /// <summary>
-    ///     The <see cref="NetPeer"/> of the server the client connected to
-    /// </summary>
-    public NetPeer Server { get; }
+        public NetPeer Server { get; }
+    }
 }

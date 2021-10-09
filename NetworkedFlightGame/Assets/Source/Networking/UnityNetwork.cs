@@ -1,161 +1,137 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using LiteNetLib;
 using LiteNetLib.Utils;
 using UnityEngine;
 
-/// <summary>
-///     Base class used by <see cref="UnityClient"/> and
-///     <see cref="UnityServer"/>
-/// </summary>
-public abstract class UnityNetwork : MonoBehaviour, INetEventListener
+namespace Networking
 {
-    [Header("Debug:")]
-    [SerializeField]
-    private bool enableDebug;
-    [SerializeField]
-    private int minLatency = 25;
-    [SerializeField]
-    private int maxLatency = 100;
-    [SerializeField]
-    private int packetLoss;
-
-    [Header("Settings:")]
-    [SerializeField]
-    private int pingInterval = 250;
-
-    /// <summary>
-    ///     <see cref="NetManager"/> used by the <see cref="UnityNetwork"/>
-    /// </summary>
-    protected NetManager netManager;
-    /// <summary>
-    ///     <see cref="NetPacketProcessor"/> used by the
-    ///     <see cref="UnityNetwork"/> to serialize and deserialize packets
-    /// </summary>
-    protected NetPacketProcessor netPacketProcessor;
-
-    /// <summary>
-    ///     Cached writer used to write data to packets
-    /// </summary>
-    protected NetDataWriter writer = new NetDataWriter();
-
-    /// <summary>
-    ///     Is the <see cref="UnityNetwork"/> ready to send packets?
-    /// </summary>
-    protected abstract bool IsReady { get; }
-
-    private void Awake()
+    public abstract class UnityNetwork : MonoBehaviour, INetEventListener
     {
-        netManager = new NetManager(this);
-        netPacketProcessor = new NetPacketProcessor();
+        protected NetManager netManager;
+        protected Dictionary<int, IPacketHandler> packetHandlers;
 
-        netManager.SimulateLatency = enableDebug;
-        netManager.SimulatePacketLoss = enableDebug;
-        netManager.SimulationMinLatency = minLatency;
-        netManager.SimulationMaxLatency = maxLatency;
-        netManager.SimulationPacketLossChance = packetLoss;
+        protected NetDataWriter cachedWriter;
 
-        netManager.PingInterval = pingInterval;
-    }
+        public abstract bool IsReady { get; }
+        public IReadOnlyDictionary<int, IPacketHandler> PacketHandlers => packetHandlers;
 
-    private void FixedUpdate()
-    {
-        netManager.PollEvents();
-    }
-
-    /// <summary>
-    ///     Sends a packet to the specified <paramref name="peer"/>
-    /// </summary>
-    public void SendPacket<T>(NetPeer peer, T packet, DeliveryMethod deliveryMethod) where T : class, IPacket, new()
-    {
-        if (!IsReady)
+        private void Awake()
         {
-            return;
+            netManager = new NetManager(this);
+            packetHandlers = new Dictionary<int, IPacketHandler>();
         }
 
-        writer.Reset();
-
-        netPacketProcessor.WriteNetSerializable(writer, packet);
-
-        peer.Send(writer, deliveryMethod);
-    }
-
-    /// <summary>
-    ///     Registers a packet receiver that will handle a packet when it is
-    ///     received from the network
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="receiver"></param>
-    public void RegisterPacketReceiver<T>(EventHandler<NetPeer, T> receiver) where T : class, IPacket, new()
-    {
-        if (receiver == null)
+        private void FixedUpdate()
         {
-            throw new ArgumentNullException(nameof(receiver));
+            netManager.PollEvents();
         }
 
-        ClearPacketReceiver<T>();
-
-        netPacketProcessor.SubscribeNetSerializable<T, NetPeer>((packet, sender) =>
+        public void RegisterPacketHandler(IPacketHandler handler)
         {
-            receiver.Invoke(sender, packet);
-        });
-    }
+            packetHandlers.Add(handler.Id, handler);
+        }
 
-    /// <summary>
-    ///     Clears a packet receiver of the specified type
-    /// </summary>
-    public void ClearPacketReceiver<T>() where T : class, IPacket, new()
-    {
-        netPacketProcessor.RemoveSubscription<T>();
-    }
+        public void UnregisterPacketHandler(IPacketHandler handler)
+        {
+            UnregisterPacketHandler(handler.Id);
+        }
 
-    protected virtual void OnPeerConnected(NetPeer peer) { }
+        public void UnregisterPacketHandler(int id)
+        {
+            packetHandlers.Remove(id);
+        }
 
-    protected virtual void OnPeerDisconnected(NetPeer peer, DisconnectInfo disconnectInfo) { }
+        public void SendAsPacketHandler(IPacketHandler handler, NetPeer peer, NetDataWriter writer, DeliveryMethod deliveryMethod)
+        {
+            ValidateIsReadyToSend();
 
-    protected virtual void OnNetworkError(IPEndPoint endPoint, SocketError socketError) { }
+            WritePacketHandlerDataToCachedWriter(handler, writer);
+            peer.Send(cachedWriter, deliveryMethod);
+        }
 
-    protected virtual void OnNetworkReceive(NetPeer peer, NetPacketReader reader, DeliveryMethod deliveryMethod) { }
+        protected void WritePacketHandlerDataToCachedWriter(IPacketHandler handler, NetDataWriter writer)
+        {
+            cachedWriter.Reset();
 
-    protected virtual void OnNetworkReceiveUnconnected(IPEndPoint remoteEndPoint, NetPacketReader reader, UnconnectedMessageType messageType) { }
+            cachedWriter.Put(true); // For usePacketHandler
 
-    protected virtual void OnNetworkLatencyUpdate(NetPeer peer, int latency) { }
+            cachedWriter.Put(handler.Id);
+            cachedWriter.Put(writer.Data, 0, writer.Length);
+        }
 
-    protected virtual void OnConnectionRequest(ConnectionRequest request) { }
+        protected void ValidateIsReadyToSend()
+        {
+            if (!IsReady)
+            {
+                throw new InvalidOperationException($"{GetType()} is not ready to send.");
+            }
+        }
 
-    void INetEventListener.OnPeerConnected(NetPeer peer)
-    {
-        OnPeerConnected(peer);
-    }
+        protected virtual void OnPeerConnected(NetPeer peer) { }
 
-    void INetEventListener.OnPeerDisconnected(NetPeer peer, DisconnectInfo disconnectInfo)
-    {
-        OnPeerDisconnected(peer, disconnectInfo);
-    }
+        protected virtual void OnPeerDisconnected(NetPeer peer, DisconnectInfo disconnectInfo) { }
 
-    void INetEventListener.OnNetworkError(IPEndPoint endPoint, SocketError socketError)
-    {
-        OnNetworkError(endPoint, socketError);
-    }
+        protected virtual void OnNetworkError(IPEndPoint endPoint, SocketError socketError) { }
 
-    void INetEventListener.OnNetworkReceive(NetPeer peer, NetPacketReader reader, DeliveryMethod deliveryMethod)
-    {
-        OnNetworkReceive(peer, reader, deliveryMethod);
-    }
+        protected virtual void OnNetworkReceive(NetPeer peer, NetPacketReader reader, DeliveryMethod deliveryMethod)
+        {
+            var usePacketHandler = reader.GetBool();
 
-    void INetEventListener.OnNetworkReceiveUnconnected(IPEndPoint remoteEndPoint, NetPacketReader reader, UnconnectedMessageType messageType)
-    {
-        OnNetworkReceiveUnconnected(remoteEndPoint, reader, messageType);
-    }
+            if (usePacketHandler)
+            {
+                var packetHandlerId = reader.GetInt();
 
-    void INetEventListener.OnNetworkLatencyUpdate(NetPeer peer, int latency)
-    {
-        OnNetworkLatencyUpdate(peer, latency);
-    }
+                if (!packetHandlers.TryGetValue(packetHandlerId, out var packetHandler))
+                {
+                    return;
+                }
 
-    void INetEventListener.OnConnectionRequest(ConnectionRequest request)
-    {
-        OnConnectionRequest(request);
+                packetHandler.Receive(peer, reader, deliveryMethod);
+            }
+        }
+
+        protected virtual void OnNetworkReceiveUnconnected(IPEndPoint remoteEndPoint, NetPacketReader reader, UnconnectedMessageType messageType) { }
+
+        protected virtual void OnNetworkLatencyUpdate(NetPeer peer, int latency) { }
+
+        protected virtual void OnConnectionRequest(ConnectionRequest request) { }
+
+        void INetEventListener.OnPeerConnected(NetPeer peer)
+        {
+            OnPeerConnected(peer);
+        }
+
+        void INetEventListener.OnPeerDisconnected(NetPeer peer, DisconnectInfo disconnectInfo)
+        {
+            OnPeerDisconnected(peer, disconnectInfo);
+        }
+
+        void INetEventListener.OnNetworkError(IPEndPoint endPoint, SocketError socketError)
+        {
+            OnNetworkError(endPoint, socketError);
+        }
+
+        void INetEventListener.OnNetworkReceive(NetPeer peer, NetPacketReader reader, DeliveryMethod deliveryMethod)
+        {
+            OnNetworkReceive(peer, reader, deliveryMethod);
+        }
+
+        void INetEventListener.OnNetworkReceiveUnconnected(IPEndPoint remoteEndPoint, NetPacketReader reader, UnconnectedMessageType messageType)
+        {
+            OnNetworkReceiveUnconnected(remoteEndPoint, reader, messageType);
+        }
+
+        void INetEventListener.OnNetworkLatencyUpdate(NetPeer peer, int latency)
+        {
+            OnNetworkLatencyUpdate(peer, latency);
+        }
+
+        void INetEventListener.OnConnectionRequest(ConnectionRequest request)
+        {
+            OnConnectionRequest(request);
+        }
     }
 }
