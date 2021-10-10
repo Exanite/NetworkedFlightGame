@@ -11,7 +11,7 @@ namespace Source
     {
 
         [Header("Dependencies")]
-        public GameObject bulletSystem;
+        public BulletManager bulletManager;
         public GameObject bulletPrefab;
         private Rigidbody rb;
     
@@ -71,7 +71,7 @@ namespace Source
                 beamscript.spawnerID = 0;//gameObject.name;
                 Rigidbody bulletRB = bullet.GetComponent<Rigidbody>();
                 bulletRB.velocity = rb.velocity*1 + transform.forward*50;
-                bullet.transform.parent = bulletSystem.transform;
+                bullet.transform.parent = bulletManager.transform;
             }
         }
 

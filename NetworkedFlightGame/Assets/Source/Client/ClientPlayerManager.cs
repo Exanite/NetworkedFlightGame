@@ -9,13 +9,14 @@ namespace Source.Client
     public class ClientPlayerManager : ClientMonoPacketHandler, IEventListener<PlayerCreationEvent>, IEventListener<PlayerDestructionEvent>
     {
         public ClientNetworkManager networkManager;
+        public BulletManager bulletManager;
 
-        public GameObject localPlayerPrefab;
-        public GameObject remotePlayerPrefab;
+        public LocalShip localPlayerPrefab;
+        public Ship remotePlayerPrefab;
 
         [Header("Debug")]
-        public GameObject localPlayer;
-        public Dictionary<int, GameObject> playersById;
+        public LocalShip localPlayer;
+        public Dictionary<int, Ship> playersById;
 
         public override int HandlerId => (int) Handlers.NotAHandler;
 
@@ -23,7 +24,7 @@ namespace Source.Client
         {
             base.Initialize();
 
-            playersById = new Dictionary<int, GameObject>();
+            playersById = new Dictionary<int, Ship>();
             
             eventBus.RegisterListener<PlayerCreationEvent>(this);
             eventBus.RegisterListener<PlayerDestructionEvent>(this);
@@ -39,10 +40,11 @@ namespace Source.Client
             var isLocalPlayer = e.Id == networkManager.localId;
 
             var player = isLocalPlayer ? InstantiateLocalPlayer() : InstantiateRemotePlayer();
+            player.networkId = e.Id;
 
             if (isLocalPlayer)
             {
-                localPlayer = player;
+                localPlayer = (LocalShip)player;
             }
 
             playersById.Add(e.Id, player);
@@ -59,17 +61,18 @@ namespace Source.Client
             Destroy(player);
         }
 
-        private GameObject InstantiateLocalPlayer()
+        private LocalShip InstantiateLocalPlayer()
         {
             // Todo Set ids
             Debug.Log("Instantiating local player prefab");
 
             localPlayer = Instantiate(localPlayerPrefab);
-
+            localPlayer.bulletManager = bulletManager;
+  
             return localPlayer;
         }
 
-        private GameObject InstantiateRemotePlayer()
+        private Ship InstantiateRemotePlayer()
         {
             Debug.Log("Instantiating remote player prefab");
 
