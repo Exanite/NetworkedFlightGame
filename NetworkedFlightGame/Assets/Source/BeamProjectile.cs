@@ -1,4 +1,3 @@
-using System;
 using Source;
 using UnityEngine;
 
@@ -6,7 +5,7 @@ public class BeamProjectile : Projectile
 {
     [Header("Dependencies")]
     public Rigidbody rb;
-    
+
     [Header("Settings")]
     public float lifetime = 20;
 
@@ -17,9 +16,16 @@ public class BeamProjectile : Projectile
         life();
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        hitManager.ReportHit(this, collision.gameObject);
+        if (other.attachedRigidbody 
+            && other.attachedRigidbody.TryGetComponent(out Ship ship) 
+            && ship.networkId == owningEntityId)
+        {
+            return;
+        }
+        
+        hitManager.ReportHit(this, other);
 
         Destroy(gameObject);
     }

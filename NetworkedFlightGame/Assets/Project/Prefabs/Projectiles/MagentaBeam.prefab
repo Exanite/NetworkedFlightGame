@@ -125,7 +125,7 @@ GameObject:
   - component: {fileID: 7771331062742882321}
   - component: {fileID: 1341269344178000211}
   m_Layer: 0
-  m_Name: Beam
+  m_Name: MagentaBeam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

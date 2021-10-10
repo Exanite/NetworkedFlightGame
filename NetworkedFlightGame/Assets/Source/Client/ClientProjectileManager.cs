@@ -8,6 +8,7 @@ namespace Source.Client
     {
         [Header("Dependencies")]
         public ClientNetworkManager networkManager;
+        public ClientProjectileHitManager hitManager;
         public ProjectileRegistry projectileRegistry;
 
         private ProjectileCreationPacket cachedProjectileCreationPacket;
@@ -59,7 +60,10 @@ namespace Source.Client
             // Instantiate projectilePrefab
             var projectile = Instantiate(projectilePrefab, projectileCreationPacket.Position, projectileCreationPacket.Rotation);
             projectile.transform.SetParent(transform);
+            
             projectile.owningEntityId = projectileCreationPacket.OwningEntityId;
+            projectile.hitManager = hitManager;
+
             projectile.SetVelocity(projectileCreationPacket.Velocity);
         }
     }
