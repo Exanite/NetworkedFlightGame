@@ -195,5 +195,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eventBus: {fileID: 7085885252242053075}
   client: {fileID: 7085885252242053103}
-  levelPrefab: {fileID: 7468645417149622516, guid: 85a22020acc34ca418224bb94b727594, type: 3}
+  levelPrefab: {fileID: 8822060165954966729, guid: b4c8bb9389c214eabb0e446b0ac71cf3, type: 3}
   level: {fileID: 0}

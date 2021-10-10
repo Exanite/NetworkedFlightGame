@@ -69,21 +69,21 @@ namespace Source
             if (cursorLockTime > 1 && context.performed)
             {
                 Debug.Log("Fire");
-                
+
                 const int targetDistance = 1000;
-                var targetPosition = cameraTransform.forward * targetDistance;
-                
+                var targetPosition = cameraTransform.position + cameraTransform.forward * targetDistance;
+
                 if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out var hit, targetDistance))
                 {
                     targetPosition = hit.point;
                 }
-                
+
                 var spawnPosition = transform.position + transform.forward * 4;
                 var direction = (targetPosition - spawnPosition).normalized;
 
                 var shipLocalVelocity = transform.TransformVector(rb.velocity);
-                var projectileVelocity = shipLocalVelocity.z * transform.forward + direction * 200;
-                
+                var projectileVelocity = direction * (200 + Mathf.Abs(shipLocalVelocity.z));
+
                 projectileManager.CreateProjectile(projectilePrefabId, networkId, spawnPosition, transform.rotation, projectileVelocity);
             }
         }
