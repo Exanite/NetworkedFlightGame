@@ -7,16 +7,16 @@ namespace Source.Server
 {
     public class ServerNetworkManager : MonoNetManager<UnityServer, ServerMonoPacketHandler>
     {
-        [Header("Settings")]
-        public int port = 17175;
-
         protected override async UniTask Initialize()
         {
             await base.Initialize();
 
             RegisterEvents();
+        }
 
-            Debug.Log("Server starting");
+        public void Create(int port)
+        {
+            Debug.Log($"Creating server on port '{port}'");
 
             network.Create(port);
         }

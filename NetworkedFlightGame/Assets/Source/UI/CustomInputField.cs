@@ -14,9 +14,11 @@ namespace Source.UI
         [Header("Settings")]
         public string fieldName = "Name";
         public string placeholder = "Placeholder";
+
+        public bool useDefaultValue;
         public string defaultValue = string.Empty;
 
-        private void Start()
+        private void Awake()
         {
             SetValues();
         }
@@ -43,7 +45,7 @@ namespace Source.UI
                 placeholderText.text = placeholder;
             }
 
-            if (inputField)
+            if (useDefaultValue && inputField)
             {
                 inputField.text = defaultValue;
             }

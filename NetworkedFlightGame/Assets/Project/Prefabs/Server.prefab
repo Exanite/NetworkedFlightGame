@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3391687556654905493}
   - component: {fileID: 3391687556654905492}
   - component: {fileID: 3391687556654905495}
+  - component: {fileID: 4080448150447819036}
   m_Layer: 0
   m_Name: Server
   m_TagString: Untagged
@@ -77,7 +78,7 @@ MonoBehaviour:
   network: {fileID: 3391687556654905489}
   packetHandlers:
   - {fileID: 3391687556654905492}
-  port: 17175
+  - {fileID: 4080448150447819036}
 --- !u!114 &3391687556654905492
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -87,7 +88,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3391687556654905488}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ebea18211f44a63b32fa8ba9b376049, type: 3}
+  m_Script: {fileID: 11500000, guid: a8423c947ecb0f0458ef6978ae51ecd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   eventBus: {fileID: 3391687556654905498}
@@ -106,3 +107,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventBus: {fileID: 3391687556654905498}
+--- !u!114 &4080448150447819036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3391687556654905488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bec2a66080724ecb948b1da116592c77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventBus: {fileID: 3391687556654905498}
+  server: {fileID: 3391687556654905489}
+  instantiatedPlayerIds: 

@@ -17,7 +17,7 @@ namespace Source
             listenerLists = new Dictionary<Type, List<object>>();
         }
 
-        public void AddListener<T>(IEventListener<T> listener)
+        public void RegisterListener<T>(IEventListener<T> listener)
         {
             var type = typeof(T);
 
@@ -29,7 +29,7 @@ namespace Source
             listenerLists[type].Add(listener);
         }
 
-        public void RemoveListener<T>(IEventListener<T> listener)
+        public void UnregisterListener<T>(IEventListener<T> listener)
         {
             if (!listenerLists.TryGetValue(typeof(T), out var listenerList))
             {

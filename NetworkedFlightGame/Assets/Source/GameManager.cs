@@ -1,8 +1,9 @@
+using System.Net;
+using Cysharp.Threading.Tasks;
 using Source.Client;
 using Source.Server;
 using UnityEngine;
 
-// Here comes the god object
 public class GameManager : MonoBehaviour
 {
     [Header("Dependencies")]
@@ -13,13 +14,23 @@ public class GameManager : MonoBehaviour
     public ServerNetworkManager server;
     public ClientNetworkManager client;
 
-    public void StartServer()
+    public void CreateServer(int port)
     {
-        if (server) { }
+        if (!server)
+        {
+            server = Instantiate(serverPrefab);
+        }
+
+        server.Create(port);
     }
 
-    public void StartClient()
+    public UniTask<bool> CreateClientAndConnect(IPEndPoint endPoint, string playerName)
     {
-        if (client) { }
+        if (!client)
+        {
+            client = Instantiate(clientPrefab);
+        }
+
+        return client.Connect(endPoint, playerName);
     }
 }
