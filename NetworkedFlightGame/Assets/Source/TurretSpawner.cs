@@ -8,19 +8,31 @@ public class TurretSpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ring(15f,  1.5f, 5);
-        ring(15f, -1.5f, 5);
+        concentric();
     }
-    void ring(float radius, float z, int n){
+
+    void concentric(){
+        both(3.5f, 2.7f,   5,  1);
+        both(15f,    1f,   5,  1);
+        both(38f,    1f,   5,  1);
+        both(48f,  1.5f, 6*5,  1);
+    }
+
+    void both(float r, float z, int n, int f){
+        ring(r,  z, n,  f);
+        ring(r, -z, n, -f);
+    }
+
+    void ring(float radius, float z, int n, int front){
         Vector3 p = transform.position;
         for(int i = 0; i < n; i++){
-            float a = i * Mathf.PI * 2 / n;
+            float a = i * Mathf.PI * 2 / n; //n spokes
             // float a = i * 360f / n;
             p.x = radius * Mathf.Sin(a);
             p.y = radius * Mathf.Cos(a);
             p.z = z;
-            // Quaternion rot = new Quaternion()
-            GameObject turret = Instantiate(turretPrefab, p, transform.rotation);
+            Quaternion rot = Quaternion.LookRotation(front * transform.forward, Vector3.up);
+            GameObject turret = Instantiate(turretPrefab, p, rot);
             turret.transform.parent = transform;
         }
     }
