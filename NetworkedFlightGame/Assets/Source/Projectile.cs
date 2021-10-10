@@ -3,14 +3,11 @@ using UnityEngine;
 
 namespace Source
 {
-    public class Projectile : MonoBehaviour
+    public abstract class Projectile : MonoBehaviour
     {
         public int owningEntityId;
         public ClientProjectileHitManager hitManager;
 
-        public void SetVelocity(Vector3 velocity)
-        {
-            // Todo Implementation
-        }
+        public abstract void SetVelocity(Vector3 velocity);
     }
 }
