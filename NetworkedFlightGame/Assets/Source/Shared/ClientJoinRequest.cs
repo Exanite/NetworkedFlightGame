@@ -2,7 +2,7 @@
 
 namespace Source.Shared
 {
-    public class ClientJoinRequest : Event, INetSerializable
+    public class ClientJoinRequest : INetSerializable
     {
         public string PlayerName;
 
