@@ -47,7 +47,6 @@ public class TargetingAI : MonoBehaviour
         BeamProjectile bullet = Instantiate(bulletPrefab, transform.position, transform.rotation);
         bullet.transform.localScale *= 0.1f;
         BeamProjectile beamscript = bullet.GetComponent<BeamProjectile>();
-        beamscript.spawnerID = 0;//gameObject.name;
 
         Rigidbody bulletRB = bullet.GetComponent<Rigidbody>();
         bulletRB.velocity = transform.forward.normalized * 10;

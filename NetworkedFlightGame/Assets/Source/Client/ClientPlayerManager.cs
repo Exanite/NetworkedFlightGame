@@ -69,17 +69,17 @@ namespace Source.Client
         {
             var player = isLocal ? InstantiateLocalPlayer() : InstantiateRemotePlayer();
             player.networkId = id;
+            player.transform.SetParent(transform);
 
             return player;
         }
 
         private Ship InstantiateLocalPlayer()
         {
-            // Todo Set ids
             Debug.Log("Instantiating local player prefab");
 
             localPlayer = Instantiate(localPlayerPrefab);
-            localPlayer.clientProjectileManager = clientProjectileManager;
+            localPlayer.projectileManager = clientProjectileManager;
 
             return localPlayer;
         }

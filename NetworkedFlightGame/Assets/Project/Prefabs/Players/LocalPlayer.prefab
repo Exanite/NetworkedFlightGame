@@ -63,8 +63,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   networkId: -1
-  bulletManager: {fileID: 0}
-  bulletPrefab: {fileID: 7419856195157238307, guid: 6cd93c888f727f7b395596e42d6e631e, type: 3}
+  cameraTransform: {fileID: 3498397637666948151}
+  projectileManager: {fileID: 0}
+  projectilePrefab: {fileID: 1341269344178000211, guid: 6cd93c888f727f7b395596e42d6e631e, type: 3}
   vflags: {x: 0, y: 0, z: 0}
   qflags: {x: 0, y: 0, z: 0}
   thrust: 10
@@ -1089,7 +1090,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4544632579251996127}
-  m_LocalRotation: {x: 0.03837652, y: -0, z: -0, w: 0.99926335}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 2, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1126,7 +1127,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.5450763, y: 1}
+    m_SensorSize: {x: 1.640648, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
