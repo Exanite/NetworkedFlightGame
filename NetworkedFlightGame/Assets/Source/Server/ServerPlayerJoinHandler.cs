@@ -4,11 +4,11 @@ using Source.Shared;
 
 namespace Source.Server
 {
-    public class ServerJoinRequestHandler : ServerMonoPacketHandler
+    public class ServerPlayerJoinHandler : ServerMonoPacketHandler
     {
         public ServerPlayerConnectionManager playerConnectionManager;
 
-        public override int HandlerId => (int) Handlers.JoinRequest;
+        public override int HandlerId => (int) Handlers.PlayerJoin;
 
         public override void Receive(NetPeer peer, NetPacketReader reader, DeliveryMethod deliveryMethod)
         {
@@ -44,6 +44,7 @@ namespace Source.Server
 
             cachedWriter.Reset();
             cachedWriter.Put(true);
+            cachedWriter.Put(peer.Id);
 
             server.SendAsPacketHandler(this, peer, cachedWriter, DeliveryMethod.ReliableOrdered);
         }

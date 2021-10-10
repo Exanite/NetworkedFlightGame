@@ -32,7 +32,11 @@ namespace Source.Shared
         {
             foreach (var packetHandler in packetHandlers)
             {
-                network.RegisterPacketHandler(packetHandler);
+                if (packetHandler.HandlerId != (int) Handlers.NotAHandler)
+                {
+                    network.RegisterPacketHandler(packetHandler);
+                }
+                
                 packetHandler.Initialize();
             }
         }

@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 7085885252242053075}
   - component: {fileID: 7085885252242053074}
   - component: {fileID: 7085885252242053073}
+  - component: {fileID: 7745757150892281886}
+  - component: {fileID: 7877797488756426171}
   m_Layer: 0
   m_Name: Client
   m_TagString: Untagged
@@ -76,8 +78,9 @@ MonoBehaviour:
   network: {fileID: 7085885252242053103}
   packetHandlers:
   - {fileID: 7085885252242053073}
-  port: 17175
-  playerName: Player
+  - {fileID: 7745757150892281886}
+  - {fileID: 7877797488756426171}
+  localId: -1
 --- !u!114 &7085885252242053073
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -88,6 +91,35 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: be8c698f62fe413fb954d00ec196846c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventBus: {fileID: 7085885252242053075}
+  client: {fileID: 7085885252242053103}
+--- !u!114 &7745757150892281886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7085885252242053102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d394da4e73f14443a3e6b05ba439c749, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventBus: {fileID: 7085885252242053075}
+  client: {fileID: 7085885252242053103}
+  networkManager: {fileID: 7085885252242053074}
+--- !u!114 &7877797488756426171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7085885252242053102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1150c8c159e54ccba0995fb0ae763392, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   eventBus: {fileID: 7085885252242053075}

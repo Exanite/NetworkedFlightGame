@@ -5,6 +5,7 @@
         // Shouldn't be here, but 
         NotAHandler,
         
-        JoinRequest,
+        PlayerJoin,
+        PlayerLifetime,
     }
 }

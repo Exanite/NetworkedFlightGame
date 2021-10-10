@@ -1,5 +1,4 @@
-﻿using System;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 
 namespace Source.UI
@@ -8,16 +7,16 @@ namespace Source.UI
     {
         [Header("Dependencies")]
         public GameManager gameManager;
-        
+
         public TMP_Text clientText;
         public TMP_Text serverText;
         public TMP_Text pingText;
-        
+
         [Header("Settings")]
         public string pingPlaceholder = "---";
         public Color successColor = Color.green;
         public Color failureColor = Color.red;
-        
+
         public bool IsClientConnected => gameManager.client?.network.IsReady ?? false;
         public bool IsServerRunning => gameManager.server?.network.IsReady ?? false;
 

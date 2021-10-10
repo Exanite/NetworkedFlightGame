@@ -8,6 +8,8 @@ namespace Source.Client
 {
     public class ClientNetworkManager : MonoNetManager<UnityClient, ClientMonoPacketHandler>
     {
+        public int localId = -1;
+        
         protected override async UniTask Initialize()
         {
             await base.Initialize();

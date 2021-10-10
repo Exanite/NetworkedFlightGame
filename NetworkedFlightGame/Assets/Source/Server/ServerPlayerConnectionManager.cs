@@ -17,7 +17,7 @@ namespace Source.Server
         {
             playerConnectionsById = new Dictionary<int, PlayerConnection>();
             
-            eventBus.AddListener(this);
+            eventBus.RegisterListener(this);
         }
 
         public void AddPlayerConnection(NetPeer peer, string name)

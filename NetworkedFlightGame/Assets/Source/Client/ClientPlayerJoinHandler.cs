@@ -4,15 +4,15 @@ using UnityEngine;
 
 namespace Source.Client
 {
-    public class ClientJoinRequestHandler : ClientMonoPacketHandler, IEventListener<ClientJoinRequest>
+    public class ClientPlayerJoinHandler : ClientMonoPacketHandler, IEventListener<ClientJoinRequest>
     {
-        public override int HandlerId => (int) Handlers.JoinRequest;
+        public override int HandlerId => (int) Handlers.PlayerJoin;
         
         public override void Initialize()
         {
             base.Initialize();
             
-            eventBus.AddListener(this);
+            eventBus.RegisterListener(this);
         }
 
         public void On(ClientJoinRequest e)
@@ -37,7 +37,14 @@ namespace Source.Client
                 return;
             }
 
-            Debug.Log("Successfully connected to server");
+            var id = reader.GetInt();
+
+            Debug.Log($"Successfully connected to server with id '{id}'");
+            
+            eventBus.PushEvent(new ClientIdAssignmentEvent()
+            {
+                Id = id,
+            });
         }
     }
 }
