@@ -10,6 +10,6 @@ public class Orbiter : MonoBehaviour
     {
         float x = radius * Mathf.Cos(Time.time);
         float z = radius * Mathf.Sin(Time.time);
-        transform.position = new Vector3(x,2f,z);        
+        transform.position = new Vector3(x,transform.position.y,z);        
     }
 }
