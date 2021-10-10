@@ -1,42 +1,40 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using Source;
 using UnityEngine;
 
 public class BeamProjectile : Projectile
 {
-    Vector3 initial_position;
-    float lifetime;
-    public int spawnerID;
+    [Header("Dependencies")]
+    public Rigidbody rb;
+    
+    [Header("Settings")]
+    public float lifetime = 20;
 
-    // Start is called before the first frame update
-    void Start()
+    // Update is called once per frame
+    private void Update()
     {
-        initial_position = transform.position;
-        lifetime = 20;
-        // transform.parent.GetComponent<BulletManager>().newChild(gameObject);
+        transform.Rotate(0f, 0f, 500 * Time.deltaTime);
+        life();
     }
 
-    void life(){
+    private void OnCollisionEnter(Collision collision)
+    {
+        hitManager.ReportHit(this, collision.gameObject);
+
+        Destroy(gameObject);
+    }
+
+    private void life()
+    {
         lifetime -= Time.deltaTime;
-        if (lifetime < 0){
+        if (lifetime < 0)
+        {
             Destroy(gameObject);
         }
     }
-    
-    // Needs to be OnCollisionEnter
-    void OnTrigger(Collision collision){
-        if (collision.gameObject.TryGetComponent(out LocalShip ship)){
-            //maybe 'tag' health object and then damage?
-            Debug.Log($"collided with a ship: {ship}");
-        }
-        // Destroy(gameObject);
-    }
 
-    // Update is called once per frame
-    void Update()
+    public override void SetVelocity(Vector3 velocity)
     {
-        transform.Rotate(0f, 0f, 500*Time.deltaTime);
-        life();
+        rb.velocity = velocity;
     }
 }

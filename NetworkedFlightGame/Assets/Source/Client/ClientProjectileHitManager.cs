@@ -1,5 +1,6 @@
 ﻿using LiteNetLib;
 using Source.Shared;
+using UnityEngine;
 
 namespace Source.Client
 {
@@ -12,7 +13,7 @@ namespace Source.Client
             throw new System.NotImplementedException();
         }
 
-        public void ReportHit()
+        public void ReportHit(Projectile projectile, GameObject objectHit)
         {
             
         }

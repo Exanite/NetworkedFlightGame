@@ -237,4 +237,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18aa3f2b94eb80d42bc4819519a7e965, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnerID: 0
+  owningEntityId: 0
+  hitManager: {fileID: 0}
+  rb: {fileID: 7771331062742882321}
+  lifetime: 20

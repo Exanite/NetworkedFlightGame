@@ -143,7 +143,7 @@ MonoBehaviour:
   eventBus: {fileID: 7085885252242053075}
   client: {fileID: 7085885252242053103}
   networkManager: {fileID: 7085885252242053074}
-  clientProjectileManager: {fileID: 0}
+  clientProjectileManager: {fileID: 2265044042139906014}
   localPlayerPrefab: {fileID: 4377338160794057946, guid: fb2896814de0412478940b3fe552db76, type: 3}
   remotePlayerPrefab: {fileID: 4368270400129490846, guid: 4de9fa57dd2dc6c4ca6ed5580c84e5ac, type: 3}
   localPlayer: {fileID: 0}
