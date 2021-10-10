@@ -9,7 +9,7 @@ namespace Source.Client
 {
     public class ClientProjectileManager : ClientMonoPacketHandler
     {
-        public List<GameObject> projectilePrefabs;
+        public List<Beam> projectilePrefabs;
 
         private ProjectileCreationPacket cachedProjectileCreationPacket;
 
