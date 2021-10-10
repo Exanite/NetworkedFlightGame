@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 3709593730493751156}
   - component: {fileID: 5864880286604267267}
   - component: {fileID: 2265044042139906014}
+  - component: {fileID: 4824141434216822651}
   m_Layer: 0
   m_Name: Client
   m_TagString: Untagged
@@ -146,6 +147,7 @@ MonoBehaviour:
   clientProjectileManager: {fileID: 2265044042139906014}
   localPlayerPrefab: {fileID: 4377338160794057946, guid: fb2896814de0412478940b3fe552db76, type: 3}
   remotePlayerPrefab: {fileID: 4368270400129490846, guid: 4de9fa57dd2dc6c4ca6ed5580c84e5ac, type: 3}
+  spawnDistance: 1500
   localPlayer: {fileID: 0}
 --- !u!114 &5864880286604267267
 MonoBehaviour:
@@ -179,3 +181,19 @@ MonoBehaviour:
   client: {fileID: 7085885252242053103}
   networkManager: {fileID: 7085885252242053074}
   projectileRegistry: {fileID: 11400000, guid: 46ee54ea382765b4782b70c3a2f1eb3d, type: 2}
+--- !u!114 &4824141434216822651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7085885252242053102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3623ca491fdb4440af0e3cf931908bdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventBus: {fileID: 7085885252242053075}
+  client: {fileID: 7085885252242053103}
+  levelPrefab: {fileID: 7468645417149622516, guid: 85a22020acc34ca418224bb94b727594, type: 3}
+  level: {fileID: 0}

@@ -80,9 +80,11 @@ namespace Source
                 
                 var spawnPosition = transform.position + transform.forward * 4;
                 var direction = (targetPosition - spawnPosition).normalized;
-                var velocity = rb.velocity + direction * 50;
+
+                var shipLocalVelocity = transform.TransformVector(rb.velocity);
+                var projectileVelocity = shipLocalVelocity.z * transform.forward + direction * 200;
                 
-                projectileManager.CreateProjectile(projectilePrefabId, networkId, spawnPosition, transform.rotation, velocity);
+                projectileManager.CreateProjectile(projectilePrefabId, networkId, spawnPosition, transform.rotation, projectileVelocity);
             }
         }
 

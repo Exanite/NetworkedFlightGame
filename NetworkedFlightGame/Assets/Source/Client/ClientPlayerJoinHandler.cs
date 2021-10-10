@@ -41,7 +41,7 @@ namespace Source.Client
 
             Debug.Log($"Successfully connected to server with id '{id}'");
             
-            eventBus.PushEvent(new ClientIdAssignmentEvent()
+            eventBus.PushEvent(new ClientJoinSucceededEvent()
             {
                 Id = id,
             });

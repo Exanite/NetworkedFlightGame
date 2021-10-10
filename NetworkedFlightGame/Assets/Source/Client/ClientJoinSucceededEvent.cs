@@ -1,6 +1,6 @@
 ﻿namespace Source.Client
 {
-    public class ClientIdAssignmentEvent
+    public class ClientJoinSucceededEvent
     {
         public int Id;
     }

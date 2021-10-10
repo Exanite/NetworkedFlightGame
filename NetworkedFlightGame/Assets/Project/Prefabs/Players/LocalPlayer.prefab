@@ -78,7 +78,7 @@ Rigidbody:
   m_GameObject: {fileID: 3840422554001551792}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 0
+  m_Drag: 1
   m_AngularDrag: 0.4
   m_UseGravity: 0
   m_IsKinematic: 0
@@ -1127,7 +1127,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.640648, y: 1}
+    m_SensorSize: {x: 1.5937053, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0

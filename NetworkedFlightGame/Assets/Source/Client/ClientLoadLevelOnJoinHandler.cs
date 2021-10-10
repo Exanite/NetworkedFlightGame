@@ -1,12 +1,15 @@
 ﻿using LiteNetLib;
 using Source.Shared;
+using UnityEngine;
 
 namespace Source.Client
 {
-    public class ClientIdHandler : ClientMonoPacketHandler, IEventListener<ClientJoinSucceededEvent>
+    public class ClientLoadLevelOnJoinHandler : ClientMonoPacketHandler, IEventListener<ClientJoinSucceededEvent>
     {
-        public ClientNetworkManager networkManager;
-            
+        public GameObject levelPrefab;
+
+        public GameObject level;
+        
         public override int HandlerId => (int) Handlers.Unassigned;
 
         public override void Initialize()
@@ -21,9 +24,10 @@ namespace Source.Client
             throw new System.NotImplementedException();
         }
 
+
         public void On(ClientJoinSucceededEvent e)
         {
-            networkManager.localNetworkId = e.Id;
+            level = Instantiate(levelPrefab);
         }
     }
 }
