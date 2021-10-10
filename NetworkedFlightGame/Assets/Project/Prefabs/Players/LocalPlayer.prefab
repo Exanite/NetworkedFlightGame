@@ -63,6 +63,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   networkId: -1
+  lastReceiveTime: 0
   cameraTransform: {fileID: 3498397637666948151}
   projectileManager: {fileID: 0}
   projectilePrefab: {fileID: 1341269344178000211, guid: 6cd93c888f727f7b395596e42d6e631e, type: 3}
@@ -1122,7 +1123,7 @@ MonoBehaviour:
     FieldOfView: 40
     OrthographicSize: 10
     NearClipPlane: 0.1
-    FarClipPlane: 5000
+    FarClipPlane: 500000
     Dutch: 0
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
