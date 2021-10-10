@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 5864880286604267267}
   - component: {fileID: 2265044042139906014}
   - component: {fileID: 4824141434216822651}
+  - component: {fileID: 2045202190630744508}
   m_Layer: 0
   m_Name: Client
   m_TagString: Untagged
@@ -180,6 +181,7 @@ MonoBehaviour:
   eventBus: {fileID: 7085885252242053075}
   client: {fileID: 7085885252242053103}
   networkManager: {fileID: 7085885252242053074}
+  hitManager: {fileID: 2045202190630744508}
   projectileRegistry: {fileID: 11400000, guid: 46ee54ea382765b4782b70c3a2f1eb3d, type: 2}
 --- !u!114 &4824141434216822651
 MonoBehaviour:
@@ -197,3 +199,17 @@ MonoBehaviour:
   client: {fileID: 7085885252242053103}
   levelPrefab: {fileID: 8822060165954966729, guid: b4c8bb9389c214eabb0e446b0ac71cf3, type: 3}
   level: {fileID: 0}
+--- !u!114 &2045202190630744508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7085885252242053102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae2f9ffd998b4d89af09bed4a46eb4c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventBus: {fileID: 7085885252242053075}
+  client: {fileID: 7085885252242053103}

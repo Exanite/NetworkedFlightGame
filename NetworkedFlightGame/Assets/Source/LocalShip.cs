@@ -126,7 +126,7 @@ namespace Source
             var s = 10.0f;
             addTorque(s * 1.0f, qflags.x, Vector3.up); //left right
             addTorque(s * 1.0f, qflags.y, Vector3.right); //up down
-            addTorque(s * 4.0f, qflags.z, Vector3.forward); //roll
+            addTorque(s * 16.0f, qflags.z, Vector3.forward); //roll
         }
 
         public void Update()

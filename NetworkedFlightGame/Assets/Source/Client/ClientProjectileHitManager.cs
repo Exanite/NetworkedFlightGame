@@ -13,7 +13,7 @@ namespace Source.Client
             throw new System.NotImplementedException();
         }
 
-        public void ReportHit(Projectile projectile, GameObject objectHit)
+        public void ReportHit(Projectile projectile, Collider objectHit)
         {
             
         }
