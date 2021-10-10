@@ -9,7 +9,6 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     [Header("Dependencies")]
-    public Camera mainMenuCamera;
     public ServerNetworkManager serverPrefab;
     public ClientNetworkManager clientPrefab;
 
@@ -38,7 +37,7 @@ public class GameManager : MonoBehaviour
 
         return client.Connect(endPoint, playerName);
     }
-
+    
     private void Client_OnDisconnected(UnityClient sender, DisconnectedEventArgs e)
     {
         SceneManager.LoadScene(gameObject.scene.buildIndex);
