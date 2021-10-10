@@ -86,8 +86,9 @@ namespace Source
         public void OnQUIT(InputAction.CallbackContext context)
         {
             // Escape Key
-            Debug.Log("Quitting Unity");
-            Application.Quit();
+            // 
+            // Debug.Log("Quitting Unity");
+            // Application.Quit();
         }
 
         public void addImpulse(){
