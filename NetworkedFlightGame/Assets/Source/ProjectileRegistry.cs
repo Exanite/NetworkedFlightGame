@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Source
@@ -27,7 +28,14 @@ namespace Source
         /// </summary>
         public int GetId(Beam projectilePrefab)
         {
-            return projectilePrefabs.IndexOf(projectilePrefab);
+            var id = projectilePrefabs.IndexOf(projectilePrefab);
+
+            if (id < 0)
+            {
+                throw new ArgumentException($"Projectile prefab '{projectilePrefab}' was not found in the ProjectileRegistry.");
+            }
+            
+            return id;
         }
     }
 }
