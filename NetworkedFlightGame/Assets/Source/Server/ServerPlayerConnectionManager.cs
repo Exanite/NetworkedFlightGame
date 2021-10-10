@@ -23,7 +23,7 @@ namespace Source.Server
 
             playerConnectionsById.Add(playerConnection.Id, playerConnection);
 
-            eventBus.PushEvent(new PlayerConnectedAddedEvent { PlayerConnection = playerConnection });
+            eventBus.PushEvent(new PlayerConnectionAddedEvent { PlayerConnection = playerConnection });
         }
     }
 }
