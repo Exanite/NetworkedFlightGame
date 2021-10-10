@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Source.Client;
+using Source;
 
 public class TargetingAI : MonoBehaviour
 {
-    public GameObject target;
     public Beam bulletPrefab;
     public GameObject cannon;
     private Vector3 initialRotation;
@@ -17,17 +18,20 @@ public class TargetingAI : MonoBehaviour
     float dataRechargeTime;
 
     private List<Vector3> list;
+    private Dictionary<int, Ship> playersById;
+    private GameObject target;
 
     // public BulletManager bulletManager;
     void Start(){
         rechargeTime = rate;
         dataRechargeTime = dataRecordingRate;
-        // initialRotation = transform.rotation;
         initialRotation = transform.forward;
+
         list = new List<Vector3>();
         for(int i = 0; i < 3; i++){
-            list.Add( target.transform.position);
+            list.Add( new Vector3(0f,0f,0f) );
         }
+        // playersById = transform.root.GetComponent<ClientPlayerManager>().playersById;
     }
 
     bool withinAngularThreshold(GameObject target){
@@ -100,9 +104,11 @@ public class TargetingAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        updateList();
-        updateAngles();
-        listLook();
-        TryFire();
+        if (target != null){
+            updateList();
+            updateAngles();
+            listLook();
+            TryFire();
+        }
     }
 }
