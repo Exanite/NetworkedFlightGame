@@ -7,5 +7,6 @@
         PlayerJoin,
         PlayerLifetime,
         PlayerState,
+        ProjectileCreate,
     }
 }
