@@ -37,17 +37,19 @@ namespace Source.Client
 
         public void On(PlayerCreationEvent e)
         {
-            var isLocalPlayer = e.Id == networkManager.localId;
+            var isLocal = e.Id == networkManager.localId;
 
-            var player = isLocalPlayer ? InstantiateLocalPlayer() : InstantiateRemotePlayer();
+            var player = CreatePlayer(isLocal);
             player.networkId = e.Id;
 
-            if (isLocalPlayer)
+            if (isLocal)
             {
                 localPlayer = (LocalShip)player;
             }
 
             playersById.Add(e.Id, player);
+
+            Debug.Log($"Player Created. Active player count: '{playersById.Count}'");
         }
 
         public void On(PlayerDestructionEvent e)
@@ -58,10 +60,17 @@ namespace Source.Client
             }
 
             playersById.Remove(e.Id);
-            Destroy(player);
+            Destroy(player.gameObject);
+            
+            Debug.Log($"Player Destroyed. Active player count: '{playersById.Count}'");
         }
 
-        private LocalShip InstantiateLocalPlayer()
+        private Ship CreatePlayer(bool isLocal)
+        {
+            return isLocal ? InstantiateLocalPlayer() : InstantiateRemotePlayer();
+        }
+
+        private Ship InstantiateLocalPlayer()
         {
             // Todo Set ids
             Debug.Log("Instantiating local player prefab");
