@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using LiteNetLib;
 using Source.Shared;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Source.Client
 {
@@ -13,6 +14,9 @@ namespace Source.Client
 
         public LocalShip localPlayerPrefab;
         public Ship remotePlayerPrefab;
+
+        [Header("Settings")]
+        public float spawnDistance = 1500;
 
         [Header("Debug")]
         public LocalShip localPlayer;
@@ -80,6 +84,8 @@ namespace Source.Client
 
             localPlayer = Instantiate(localPlayerPrefab);
             localPlayer.projectileManager = clientProjectileManager;
+            localPlayer.transform.position = Random.onUnitSphere * spawnDistance;
+            localPlayer.transform.rotation = Quaternion.LookRotation(Vector3.zero - localPlayer.transform.position);
 
             return localPlayer;
         }
