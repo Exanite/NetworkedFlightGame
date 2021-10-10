@@ -68,7 +68,7 @@ namespace Source
                 Debug.Log("Fire");
                 Vector3 p = transform.position + transform.forward*4;
                 GameObject bullet = Instantiate(bulletPrefab, p, transform.rotation);
-                Beam beamscript = bullet.GetComponent<Beam>();
+                BeamProjectile beamscript = bullet.GetComponent<BeamProjectile>();
                 beamscript.spawnerID = 0;//gameObject.name;
                 Rigidbody bulletRB = bullet.GetComponent<Rigidbody>();
                 bulletRB.velocity = rb.velocity*1 + transform.forward*50;

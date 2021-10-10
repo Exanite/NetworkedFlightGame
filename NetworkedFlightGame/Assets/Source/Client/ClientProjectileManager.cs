@@ -57,6 +57,10 @@ namespace Source.Client
             if (projectileRegistry.TryGet(projectileCreationPacket.PrefabId, out var projectilePrefab)) { }
 
             // Instantiate projectilePrefab
+            var projectile = Instantiate(projectilePrefab, projectileCreationPacket.Position, projectileCreationPacket.Rotation);
+            projectile.transform.SetParent(transform);
+            projectile.owningEntityId = projectileCreationPacket.OwningEntityId;
+            projectile.SetVelocity(projectileCreationPacket.Velocity);
         }
     }
 }

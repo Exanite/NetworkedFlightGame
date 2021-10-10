@@ -7,9 +7,9 @@ namespace Source
     [CreateAssetMenu(menuName = "Project/ProjectileRegistry")]
     public class ProjectileRegistry : ScriptableObject
     {
-        public List<Beam> projectilePrefabs;
+        public List<Projectile> projectilePrefabs;
 
-        public bool TryGet(int prefabId, out Beam projectilePrefab)
+        public bool TryGet(int prefabId, out Projectile projectilePrefab)
         {
             projectilePrefab = null;
 
@@ -26,7 +26,7 @@ namespace Source
         /// <summary>
         /// Use if you want to reference projectiles by prefab on the Ship/turrets and then get the id from here
         /// </summary>
-        public int GetId(Beam projectilePrefab)
+        public int GetId(Projectile projectilePrefab)
         {
             var id = projectilePrefabs.IndexOf(projectilePrefab);
 

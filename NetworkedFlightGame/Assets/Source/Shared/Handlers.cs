@@ -8,5 +8,6 @@
         PlayerLifetime,
         PlayerState,
         ProjectileCreate,
+        ProjectileHit,
     }
 }

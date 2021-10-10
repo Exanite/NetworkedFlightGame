@@ -5,7 +5,7 @@ using UnityEngine;
 public class TargetingAI : MonoBehaviour
 {
     public GameObject target;
-    public Beam bulletPrefab;
+    public BeamProjectile bulletPrefab;
     public GameObject cannon;
     private Vector3 initialRotation;
     public float maxAngle = 90f; //degrees
@@ -44,9 +44,9 @@ public class TargetingAI : MonoBehaviour
 
     void Fire(){
         // Use best aiming direction
-        Beam bullet = Instantiate(bulletPrefab, transform.position, transform.rotation);
+        BeamProjectile bullet = Instantiate(bulletPrefab, transform.position, transform.rotation);
         bullet.transform.localScale *= 0.1f;
-        Beam beamscript = bullet.GetComponent<Beam>();
+        BeamProjectile beamscript = bullet.GetComponent<BeamProjectile>();
         beamscript.spawnerID = 0;//gameObject.name;
 
         Rigidbody bulletRB = bullet.GetComponent<Rigidbody>();

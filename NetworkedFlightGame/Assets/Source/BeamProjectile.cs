@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Source;
 using UnityEngine;
 
-public class Beam : MonoBehaviour
+public class BeamProjectile : Projectile
 {
     Vector3 initial_position;
     float lifetime;
