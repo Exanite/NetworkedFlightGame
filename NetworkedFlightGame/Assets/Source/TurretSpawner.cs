@@ -31,6 +31,12 @@ public class TurretSpawner : MonoBehaviour
         return aimDir;
     }
 
+    Quaternion getRot(int front, Vector3 p){
+        return front != 0 
+            ? Quaternion.LookRotation(front * transform.forward, Vector3.up)
+            : lookAt(p);
+    }
+
     void ring(float radius, float z, int n, int front){
         Vector3 p = transform.position;
         for(int i = 0; i < n; i++){
@@ -39,11 +45,7 @@ public class TurretSpawner : MonoBehaviour
             p.x = radius * Mathf.Sin(a);
             p.y = radius * Mathf.Cos(a);
             p.z = z;
-            Quaternion rot = Quaternion.LookRotation(front * transform.forward, Vector3.up);
-            if(front == 0){
-                rot = lookAt(p);
-            }
-            GameObject turret = Instantiate(turretPrefab, p, rot);
+            GameObject turret = Instantiate(turretPrefab, p, getRot(front, p));
             turret.transform.parent = transform;
         }
     }
