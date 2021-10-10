@@ -67,7 +67,7 @@ public class Ship : MonoBehaviour, InputActions.IPlayerActions
             Beam beamscript = bullet.GetComponent<Beam>();
             beamscript.spawnerID = 0;//gameObject.name;
             Rigidbody bulletRB = bullet.GetComponent<Rigidbody>();
-            bulletRB.velocity = rb.velocity*2 + transform.forward*1;
+            bulletRB.velocity = rb.velocity*1 + transform.forward*50;
             bullet.transform.parent = bulletSystem.transform;
         }
     }

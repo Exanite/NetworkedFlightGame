@@ -23,16 +23,17 @@ public class Beam : MonoBehaviour
         }
     }
     
-    void OnCollisionEnter(Collision collision){
+    void OnTrigger(Collision collision){
         if (collision.gameObject.GetComponent<Ship>() != null){
             Debug.Log("collided with a ship");
-            Destroy(gameObject);
         }
+        Destroy(gameObject);
     }
 
     // Update is called once per frame
     void Update()
     {
+        transform.Rotate(0f, 0f, 500*Time.deltaTime);
         life();
     }
 }
