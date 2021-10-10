@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c4dd276e70a48d986393d8b339c26c7, type: 3}
   m_Name: ProjectileRegistry
   m_EditorClassIdentifier: 
-  projectilePrefabs: []
+  projectilePrefabs:
+  - {fileID: 1341269344178000211, guid: 6cd93c888f727f7b395596e42d6e631e, type: 3}
