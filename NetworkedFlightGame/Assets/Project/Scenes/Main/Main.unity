@@ -471,6 +471,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9216654528530760863, guid: 1dbfa399d366987449ad88250eec2feb, type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 1734524092}
     - target: {fileID: 9216654529120203531, guid: 1dbfa399d366987449ad88250eec2feb, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -554,6 +558,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1734524091}
+  - component: {fileID: 1734524092}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -575,6 +580,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1734524092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1734524090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ddfa8cb5fa50834d942a979c5f111c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverPrefab: {fileID: 3391687556654905493, guid: adba8bc5981f7cd4f9599559f03923eb, type: 3}
+  clientPrefab: {fileID: 7085885252242053074, guid: 5688e83ae8d5ed34c9e533493240ff66, type: 3}
+  server: {fileID: 0}
+  client: {fileID: 0}
 --- !u!1 &1897527235
 GameObject:
   m_ObjectHideFlags: 0

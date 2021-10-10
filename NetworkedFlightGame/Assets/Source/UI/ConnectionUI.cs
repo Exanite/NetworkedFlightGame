@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -9,10 +10,15 @@ namespace Source.UI
     public class ConnectionUI : MonoBehaviour
     {
         [Header("Dependencies")]
+        public GameManager gameManager;
+
         public CustomInputField playerNameField;
         public CustomInputField addressField;
         public CustomInputField portField;
+
         public Button connectButton;
+        public Button startServerButton;
+        public Button startServerAndConnectButton;
 
         [Header("Values")]
         public string playerNameString;
@@ -26,6 +32,8 @@ namespace Source.UI
             portField.BindOnChanged(Port_OnChanged, portString);
 
             connectButton.onClick.AddListener(Connect_OnClick);
+            startServerButton.onClick.AddListener(StartServer_OnClick);
+            startServerAndConnectButton.onClick.AddListener(StartServerAndConnect_OnClick);
         }
 
         private void Port_OnChanged(string value)
@@ -45,39 +53,98 @@ namespace Source.UI
 
         public void Connect_OnClick()
         {
-            Debug.Log("Validating input...");
-
-            if (string.IsNullOrWhiteSpace(playerNameString.Trim()))
+            if (!TryParseInput(out var input, out var message))
             {
-                Debug.LogWarning("Player name cannot be blank");
+                ShowWarningMessage(message);
 
                 return;
+            }
+            
+            Debug.Log($"Trying to connect to endpoint '{input.Endpoint}' with player name '{input.PlayerName}'");
+        }
+
+        private void StartServer_OnClick()
+        {
+            if (!TryParseInput(out var input, out var message))
+            {
+                ShowWarningMessage(message);
+
+                return;
+            }
+            
+            Debug.Log($"Creating server with port '{input.Port}'");
+        }
+
+        private void StartServerAndConnect_OnClick()
+        {
+            if (!TryParseInput(out var input, out var message))
+            {
+                ShowWarningMessage(message);
+
+                return;
+            }
+            
+            Debug.Log($"Creating server with port '{input.Port}'");
+            Debug.Log($"Trying to connect to endpoint '{input.Endpoint}' with player name '{input.PlayerName}'");
+        }
+
+        private bool TryParseInput(out ParsedInput input, out string message)
+        {
+            Debug.Log("Validating input...");
+
+            input = new ParsedInput();
+            message = string.Empty;
+
+            var playerName = playerNameString.Trim();
+
+            if (string.IsNullOrWhiteSpace(playerName))
+            {
+                message = "Player name cannot be blank";
+
+                return false;
             }
 
             if (!IPAddress.TryParse(addressString.Trim(), out var address))
             {
-                Debug.LogWarning("Address is invalid");
+                message = "Address is invalid";
 
-                return;
+                return false;
             }
 
             if (!int.TryParse(portString.Trim(), out var port))
             {
-                Debug.LogWarning("Port needs to be a number");
+                message = "Port needs to be a number";
 
-                return;
+                return false;
             }
 
             if (port < IPEndPoint.MinPort || port > IPEndPoint.MaxPort)
             {
-                Debug.LogWarning($"Port needs to be within {IPEndPoint.MinPort} and {IPEndPoint.MaxPort}");
+                message = $"Port needs to be within {IPEndPoint.MinPort} and {IPEndPoint.MaxPort}";
 
-                return;
+                return false;
             }
 
-            var endpoint = new IPEndPoint(address, port);
+            input.PlayerName = playerName;
+            input.Address = address;
+            input.Port = port;
 
-            Debug.Log($"Trying to connect to endpoint '{endpoint}' with player name '{playerNameString}'");
+            return true;
+        }
+
+        public void ShowWarningMessage(string message)
+        {
+            Debug.LogWarning(message);
+        }
+
+        private struct ParsedInput
+        {
+            public string PlayerName;
+
+            public IPAddress Address;
+            public int Port;
+
+            public IPEndPoint Endpoint => new IPEndPoint(Address, Port);
         }
     }
 
