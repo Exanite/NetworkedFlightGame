@@ -17,7 +17,7 @@ namespace Source
             listenerLists = new Dictionary<Type, List<object>>();
         }
 
-        public void AddListener<T>(IEventListener<T> listener) where T : Event
+        public void AddListener<T>(IEventListener<T> listener)
         {
             var type = typeof(T);
 
@@ -29,7 +29,7 @@ namespace Source
             listenerLists[type].Add(listener);
         }
 
-        public void RemoveListener<T>(IEventListener<T> listener) where T : Event
+        public void RemoveListener<T>(IEventListener<T> listener)
         {
             if (!listenerLists.TryGetValue(typeof(T), out var listenerList))
             {
@@ -39,7 +39,7 @@ namespace Source
             listenerList.Remove(listener);
         }
 
-        public void PushEvent<T>(T e) where T : Event
+        public void PushEvent<T>(T e)
         {
             if (shouldLogEvents)
             {
@@ -60,10 +60,8 @@ namespace Source
         }
     }
 
-    public interface IEventListener<in T> where T : Event
+    public interface IEventListener<in T>
     {
         void On(T e);
     }
-
-    public abstract class Event { }
 }

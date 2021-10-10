@@ -14,8 +14,8 @@ namespace Networking.Server
         public bool IsCreated { get; private set; }
         public override bool IsReady => IsCreated;
 
-        public event EventHandler<UnityServer, PeerConnectedEventArgs> ClientConnected;
-        public event EventHandler<UnityServer, PeerDisconnectedEventArgs> ClientDisconnected;
+        public event EventHandler<UnityServer, PeerConnectedEventArgs> PeerConnected;
+        public event EventHandler<UnityServer, PeerDisconnectedEventArgs> PeerDisconnected;
 
         private void OnDestroy()
         {
@@ -72,7 +72,7 @@ namespace Networking.Server
 
             connectedPeers.Add(peer);
 
-            ClientConnected?.Invoke(this, new PeerConnectedEventArgs(peer));
+            PeerConnected?.Invoke(this, new PeerConnectedEventArgs(peer));
         }
 
         protected override void OnPeerDisconnected(NetPeer peer, DisconnectInfo disconnectInfo)
@@ -81,7 +81,7 @@ namespace Networking.Server
 
             connectedPeers.Remove(peer);
 
-            ClientDisconnected?.Invoke(this, new PeerDisconnectedEventArgs(peer, disconnectInfo));
+            PeerDisconnected?.Invoke(this, new PeerDisconnectedEventArgs(peer, disconnectInfo));
         }
 
         protected override void OnConnectionRequest(ConnectionRequest request)

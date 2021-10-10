@@ -1,6 +1,6 @@
 ﻿namespace Source.Server
 {
-    public class PlayerConnectedAddedEvent : Event
+    public class PlayerConnectedAddedEvent
     {
         public PlayerConnection PlayerConnection;
     }
