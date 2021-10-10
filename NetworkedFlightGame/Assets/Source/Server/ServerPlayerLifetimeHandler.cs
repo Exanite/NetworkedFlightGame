@@ -72,7 +72,10 @@ namespace Source.Server
 
             instantiatedPlayerIds.Remove(id);
 
-            var destructionEvent = new PlayerDestructionEvent();
+            var destructionEvent = new PlayerDestructionEvent()
+            {
+                Id = e.PlayerConnection.Id,
+            };
 
             eventBus.PushEvent(destructionEvent);
 

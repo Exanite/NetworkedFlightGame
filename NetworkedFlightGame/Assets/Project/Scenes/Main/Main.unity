@@ -309,7 +309,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.5450763, y: 1}
+    m_SensorSize: {x: 1.7112135, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -476,6 +476,10 @@ PrefabInstance:
     - target: {fileID: 4011475030940270524, guid: 1dbfa399d366987449ad88250eec2feb, type: 3}
       propertyPath: m_Name
       value: GameUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 4011475030940270524, guid: 1dbfa399d366987449ad88250eec2feb, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4680238677035687504, guid: 1dbfa399d366987449ad88250eec2feb, type: 3}
       propertyPath: m_AnchorMax.y
@@ -754,7 +758,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ddfa8cb5fa50834d942a979c5f111c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainMenuCamera: {fileID: 1897527237}
   serverPrefab: {fileID: 3391687556654905493, guid: adba8bc5981f7cd4f9599559f03923eb, type: 3}
   clientPrefab: {fileID: 7085885252242053074, guid: 5688e83ae8d5ed34c9e533493240ff66, type: 3}
   server: {fileID: 0}
@@ -923,7 +926,7 @@ MonoBehaviour:
   m_ShowCameraFrustum: 1
   m_IgnoreTimeScale: 0
   m_WorldUpOverride: {fileID: 0}
-  m_UpdateMethod: 2
+  m_UpdateMethod: 0
   m_BlendUpdateMethod: 1
   m_DefaultBlend:
     m_Style: 1

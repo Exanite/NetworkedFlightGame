@@ -38,10 +38,8 @@ namespace Source.Client
         public void On(PlayerCreationEvent e)
         {
             var isLocal = e.Id == networkManager.localId;
-
-            var player = CreatePlayer(isLocal);
-            player.networkId = e.Id;
-
+            var player = CreatePlayer(e.Id, isLocal);
+  
             if (isLocal)
             {
                 localPlayer = (LocalShip)player;
@@ -49,7 +47,7 @@ namespace Source.Client
 
             playersById.Add(e.Id, player);
 
-            Debug.Log($"Player Created. Active player count: '{playersById.Count}'");
+            Debug.Log($"Player '{e.Id}' created. Active player count: '{playersById.Count}'");
         }
 
         public void On(PlayerDestructionEvent e)
@@ -62,12 +60,15 @@ namespace Source.Client
             playersById.Remove(e.Id);
             Destroy(player.gameObject);
             
-            Debug.Log($"Player Destroyed. Active player count: '{playersById.Count}'");
+            Debug.Log($"Player '{e.Id}' destroyed. Active player count: '{playersById.Count}'");
         }
 
-        private Ship CreatePlayer(bool isLocal)
+        private Ship CreatePlayer(int id, bool isLocal)
         {
-            return isLocal ? InstantiateLocalPlayer() : InstantiateRemotePlayer();
+            var player = isLocal ? InstantiateLocalPlayer() : InstantiateRemotePlayer();
+            player.networkId = id;
+
+            return player;
         }
 
         private Ship InstantiateLocalPlayer()
