@@ -47,6 +47,11 @@ namespace Networking.Server
             netManager.SendToAll(cachedWriter, deliveryMethod);
         }
 
+        public void DisconnectPeer(NetPeer peer)
+        {
+            netManager.DisconnectPeer(peer);
+        }
+        
         protected void Close(bool pollEvents)
         {
             if (!IsCreated)

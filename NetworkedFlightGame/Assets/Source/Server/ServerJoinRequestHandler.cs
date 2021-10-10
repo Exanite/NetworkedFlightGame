@@ -35,6 +35,7 @@ namespace Source.Server
             cachedWriter.Put("Another player has the same name");
 
             server.SendAsPacketHandler(this, peer, cachedWriter, DeliveryMethod.ReliableOrdered);
+            server.DisconnectPeer(peer);
         }
 
         private void OnJoinSucceeded(NetPeer peer, string playerName)

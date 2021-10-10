@@ -31,6 +31,8 @@ namespace Source.Client
                 var reason = reader.GetString();
 
                 Debug.LogWarning($"Failed to join server. Reason: '{reason}'");
+                
+                client.Disconnect();
 
                 return;
             }
