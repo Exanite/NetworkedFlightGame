@@ -16,6 +16,8 @@ namespace Source.Client
         {
             await base.Initialize();
 
+            RegisterEvents();
+
             Debug.Log("Client starting");
 
             var connectResult = await network.ConnectAsync(new IPEndPoint(IPAddress.Loopback, port));
@@ -31,6 +33,22 @@ namespace Source.Client
             {
                 PlayerName = playerName,
             });
+        }
+
+        private void RegisterEvents()
+        {
+            network.Connected += Network_OnConnected;
+            network.Disconnected += Network_OnDisconnected;
+        }
+
+        private void Network_OnConnected(UnityClient sender, ConnectedEventArgs e)
+        {
+            eventBus.PushEvent(e);
+        }
+        
+        private void Network_OnDisconnected(UnityClient sender, DisconnectedEventArgs e)
+        {
+            eventBus.PushEvent(e);
         }
     }
 }
