@@ -30,12 +30,25 @@ public class TargetingAI : MonoBehaviour
         return true;
     }
 
+    Vector3 listV(List<Vector3> list){
+        // effectively decasteljau's algorithm
+        for(int i = 0; i < list.Count - 1; i++){
+            list[i] = list[i] - list[i+1];
+        }
+        return list[0] / dataRecordingRate;
+    }
+
+
     void FireDirect(){
         //Naively point directly at the target
         Vector3 p = transform.position;
         Vector3 dp = (target.transform.position - transform.position).normalized;
 
-        Beam bullet = Instantiate(bulletPrefab, p+dp, transform.rotation);
+        // account for velocity
+        // Vector3 v = listV(new List<Vector3>(list));
+        // dp = (dp+v).normalized;
+
+        Beam bullet = Instantiate(bulletPrefab, p, transform.rotation);
         bullet.transform.localScale *= 0.1f;
         Beam beamscript = bullet.GetComponent<Beam>();
         beamscript.spawnerID = 0;//gameObject.name;
@@ -57,40 +70,35 @@ public class TargetingAI : MonoBehaviour
     void updateAngles(){
         // Naive, point directly at target
         Vector3 dp = target.transform.position - transform.position;
-        transform.rotation = Quaternion.LookRotation(dp, Vector3.up);
         Debug.DrawRay(transform.position, dp, Color.green);
+        transform.rotation = Quaternion.LookRotation(dp.normalized, Vector3.up);
     }
 
     void updateList(){
-        if(rechargeTime < 0){
+        dataRechargeTime -= Time.deltaTime;
+        if(dataRechargeTime < 0){
             for(int i = 0; i < list.Count - 1; i++){
                 list[i+1] = list[i];
             }
             list[0] = target.transform.position;
             dataRechargeTime = dataRecordingRate;
-            Debug.Log("List Update");
         }
     }
 
-    void listLook(List<Vector3> list){
-        // effectively decasteljau's algorithm
-        for(int i = 0; i < list.Count - 1; i++){
-            Debug.Log(list[i]);
-
-            list[i] = list[i] - list[i+1];
-        }
-        Vector3 v = list[0] / dataRecordingRate;
-        Debug.Log(v);
-        Vector3 dp = v + target.transform.position - transform.position;
-        Debug.DrawRay(transform.position, dp, Color.red);
+    void listLook(){
+        Vector3 v = listV(new List<Vector3>(list));
+        Vector3 dp = (target.transform.position - transform.position).normalized;
+        transform.rotation = Quaternion.LookRotation(dp+v, Vector3.up);
+        // Debug.DrawRay(dp, v, Color.red);
+        // Debug.DrawRay(transform.position, dp + v, Color.white);
     }
 
     // Update is called once per frame
     void Update()
     {
         updateAngles();
-        updateList();
-        listLook(new List<Vector3>(list));
+        // updateList();
+        listLook();
         TryFire();
     }
 }
