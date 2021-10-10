@@ -11,14 +11,14 @@ public class TargetingAI : MonoBehaviour
     private Vector3 initialRotation;
     public float maxAngle = 90f; //degrees
 
-    float rate = 0.5f;
+    float rate = 2f;
     float rechargeTime;
     float dataRecordingRate = 0.1f;
     float dataRechargeTime;
 
     private List<Vector3> list;
     private Dictionary<int, Ship> playersById;
-    private GameObject target;
+    private Ship target;
 
     // public BulletManager bulletManager;
     void Start(){
@@ -31,6 +31,10 @@ public class TargetingAI : MonoBehaviour
             list.Add( new Vector3(0f,0f,0f) );
         }
         // playersById = transform.root.GetComponent<ClientPlayerManager>().playersById;
+        playersById = GameObject.Find("Client(Clone)").GetComponent<ClientPlayerManager>().playersById;
+        foreach (var ship in playersById){
+            target = ship.Value;
+        }
     }
 
     bool withinAngularThreshold(GameObject target){
@@ -47,12 +51,13 @@ public class TargetingAI : MonoBehaviour
 
     void Fire(){
         // Use best aiming direction
-        BeamProjectile bullet = Instantiate(bulletPrefab, transform.position, transform.rotation);
-        bullet.transform.localScale *= 0.1f;
+        Vector3 p = transform.position + transform.forward*10;
+        BeamProjectile bullet = Instantiate(bulletPrefab, p, transform.rotation);
+        bullet.transform.localScale *= 2f;
         BeamProjectile beamscript = bullet.GetComponent<BeamProjectile>();
 
         Rigidbody bulletRB = bullet.GetComponent<Rigidbody>();
-        bulletRB.velocity = transform.forward.normalized * 10;
+        bulletRB.velocity = transform.forward.normalized * 300;
         // bullet.transform.parent = bulletManager.transform;
     }
 
