@@ -40,11 +40,15 @@ namespace Source.Client
         /// </param>
         public void CreateProjectile(int prefabId, int owningEntityId, Vector3 position, Quaternion rotation, Vector3 velocity)
         {
-            cachedProjectileCreationPacket.Set(prefabId, owningEntityId, position, rotation, velocity);
-            cachedWriter.Reset();
-            cachedWriter.Put(cachedProjectileCreationPacket);
-            client.SendAsPacketHandlerToServer(this, cachedWriter, DeliveryMethod.ReliableUnordered);
-
+            // Only projectiles shot by players are replicated
+            if (owningEntityId >= 0)
+            {
+                cachedProjectileCreationPacket.Set(prefabId, owningEntityId, position, rotation, velocity);
+                cachedWriter.Reset();
+                cachedWriter.Put(cachedProjectileCreationPacket);
+                client.SendAsPacketHandlerToServer(this, cachedWriter, DeliveryMethod.ReliableUnordered);
+            }
+            
             InstantiateLocal(cachedProjectileCreationPacket);
         }
 
