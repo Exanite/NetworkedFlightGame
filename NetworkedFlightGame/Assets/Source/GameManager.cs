@@ -1,8 +1,10 @@
 using System.Net;
 using Cysharp.Threading.Tasks;
+using Networking.Client;
 using Source.Client;
 using Source.Server;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -30,7 +32,14 @@ public class GameManager : MonoBehaviour
         {
             client = Instantiate(clientPrefab);
         }
+        
+        client.network.Disconnected += Client_OnDisconnected;
 
         return client.Connect(endPoint, playerName);
+    }
+
+    private void Client_OnDisconnected(UnityClient sender, DisconnectedEventArgs e)
+    {
+        SceneManager.LoadScene(gameObject.scene.buildIndex);
     }
 }
