@@ -7,7 +7,7 @@ namespace Source.Input
 {
     public class InputManager : MonoBehaviour
     {
-        public Ship ship;
+        public LocalShip localShip;
         public Reticle reticle;
         
         private InputActions actions;
@@ -19,7 +19,7 @@ namespace Source.Input
             actions.Player.SetCallbacks(
                 new InputDistributor(
                     new List<InputActions.IPlayerActions>() { 
-                        ship, reticle
+                        localShip, reticle
                 }));
         }
 

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Source;
 using UnityEngine;
 
 public class Beam : MonoBehaviour
@@ -24,7 +25,7 @@ public class Beam : MonoBehaviour
     }
     
     void OnTrigger(Collision collision){
-        if (collision.gameObject.GetComponent<Ship>() != null){
+        if (collision.gameObject.GetComponent<LocalShip>() != null){
             Debug.Log("collided with a ship");
         }
         Destroy(gameObject);

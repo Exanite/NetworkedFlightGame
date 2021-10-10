@@ -1601,6 +1601,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4377338160719932841, guid: 713231ac1bdd8e54a9534b26cacfbba8, type: 3}
+      propertyPath: far clip plane
+      value: 100000
+      objectReference: {fileID: 0}
+    - target: {fileID: 4377338160794057944, guid: 713231ac1bdd8e54a9534b26cacfbba8, type: 3}
+      propertyPath: localShip
+      value: 
+      objectReference: {fileID: 2009480024}
+    - target: {fileID: 4377338160794057946, guid: 713231ac1bdd8e54a9534b26cacfbba8, type: 3}
+      propertyPath: bulletSystem
+      value: 
+      objectReference: {fileID: 1998689828}
     - target: {fileID: 4377338160794057950, guid: 713231ac1bdd8e54a9534b26cacfbba8, type: 3}
       propertyPath: m_Name
       value: Ship
@@ -1655,3 +1667,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 713231ac1bdd8e54a9534b26cacfbba8, type: 3}
+--- !u!114 &2009480024 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4377338160794057946, guid: 713231ac1bdd8e54a9534b26cacfbba8, type: 3}
+  m_PrefabInstance: {fileID: 2009480023}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af4db4e5c46398e2cb7879c73e6ef113, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
