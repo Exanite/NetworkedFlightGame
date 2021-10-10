@@ -8,31 +8,34 @@ namespace Source.Client
 {
     public class ClientNetworkManager : MonoNetManager<UnityClient, ClientMonoPacketHandler>
     {
-        [Header("Settings")]
-        public int port = 17175;
-        public string playerName = "Player";
-
         protected override async UniTask Initialize()
         {
             await base.Initialize();
 
             RegisterEvents();
+        }
 
-            Debug.Log("Client starting");
+        public async UniTask<bool> Connect(IPEndPoint endPoint, string playerName)
+        {
+            Debug.Log($"Trying to connect to endpoint '{endPoint}' with player name '{playerName}'");
 
-            var connectResult = await network.ConnectAsync(new IPEndPoint(IPAddress.Loopback, port));
-
-            Debug.Log($"Connect isSuccess: {connectResult.IsSuccess}");
+            var connectResult = await network.ConnectAsync(endPoint);
 
             if (!connectResult.IsSuccess)
             {
-                return;
+                Debug.Log($"Connection failed");
+                
+                return false;
             }
+            
+            Debug.Log($"Connection succeeded");
 
             eventBus.PushEvent(new ClientJoinRequest
             {
                 PlayerName = playerName,
             });
+
+            return true;
         }
 
         private void RegisterEvents()

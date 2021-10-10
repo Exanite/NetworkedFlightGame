@@ -1,5 +1,5 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
+using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -36,22 +36,32 @@ namespace Source.UI
             startServerAndConnectButton.onClick.AddListener(StartServerAndConnect_OnClick);
         }
 
+        public void SetVisibility(bool isVisible)
+        {
+            gameObject.SetActive(isVisible);
+        }
+
+        public void ShowWarningMessage(string message)
+        {
+            Debug.LogWarning(message);
+        }
+
         private void Port_OnChanged(string value)
         {
             portString = value;
         }
 
-        public void Address_OnChanged(string value)
+        private void Address_OnChanged(string value)
         {
             addressString = value;
         }
 
-        public void PlayerName_OnChanged(string value)
+        private void PlayerName_OnChanged(string value)
         {
             playerNameString = value;
         }
 
-        public void Connect_OnClick()
+        private void Connect_OnClick()
         {
             if (!TryParseInput(out var input, out var message))
             {
@@ -59,8 +69,19 @@ namespace Source.UI
 
                 return;
             }
-            
-            Debug.Log($"Trying to connect to endpoint '{input.Endpoint}' with player name '{input.PlayerName}'");
+
+            gameManager.CreateClientAndConnect(input.EndPoint, input.PlayerName)
+                .ContinueWith(x =>
+                {
+                    var isConnectSuccess = x;
+
+                    if (!isConnectSuccess)
+                    {
+                        SetVisibility(true);
+                    }
+                });
+
+            SetVisibility(false);
         }
 
         private void StartServer_OnClick()
@@ -71,8 +92,10 @@ namespace Source.UI
 
                 return;
             }
-            
-            Debug.Log($"Creating server with port '{input.Port}'");
+
+            gameManager.CreateServer(input.Port);
+
+            SetVisibility(false);
         }
 
         private void StartServerAndConnect_OnClick()
@@ -83,9 +106,11 @@ namespace Source.UI
 
                 return;
             }
-            
-            Debug.Log($"Creating server with port '{input.Port}'");
-            Debug.Log($"Trying to connect to endpoint '{input.Endpoint}' with player name '{input.PlayerName}'");
+
+            gameManager.CreateServer(input.Port);
+            gameManager.CreateClientAndConnect(new IPEndPoint(IPAddress.Loopback, input.Port), input.PlayerName);
+
+            SetVisibility(false);
         }
 
         private bool TryParseInput(out ParsedInput input, out string message)
@@ -132,11 +157,6 @@ namespace Source.UI
             return true;
         }
 
-        public void ShowWarningMessage(string message)
-        {
-            Debug.LogWarning(message);
-        }
-
         private struct ParsedInput
         {
             public string PlayerName;
@@ -144,7 +164,7 @@ namespace Source.UI
             public IPAddress Address;
             public int Port;
 
-            public IPEndPoint Endpoint => new IPEndPoint(Address, Port);
+            public IPEndPoint EndPoint => new IPEndPoint(Address, Port);
         }
     }
 
