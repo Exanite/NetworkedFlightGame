@@ -11,7 +11,7 @@ namespace Source.Server
         IEventListener<PlayerConnectionRemovedEvent>
     {
         public override int HandlerId => (int) Handlers.PlayerLifetime;
-        
+
         [Header("Debug")]
         public List<int> instantiatedPlayerIds;
 
@@ -20,7 +20,7 @@ namespace Source.Server
             base.Initialize();
 
             instantiatedPlayerIds = new List<int>();
-            
+
             eventBus.RegisterListener<PlayerConnectionAddedEvent>(this);
             eventBus.RegisterListener<PlayerConnectionRemovedEvent>(this);
         }
@@ -34,26 +34,32 @@ namespace Source.Server
         {
             // Tell all players to instantiate new player
             // Tell new player to instantiate other players and self
-            var id = e.PlayerConnection.Id;
+            var newPlayerId = e.PlayerConnection.Id;
 
-            instantiatedPlayerIds.Add(id);
+            instantiatedPlayerIds.Add(newPlayerId);
 
-            var creationEvent = new PlayerCreationEvent()
+            var creationEvent = new PlayerCreationEvent
             {
-                Id = id,
+                Id = newPlayerId,
             };
-            
+
             eventBus.PushEvent(creationEvent);
-            
+
             cachedWriter.Reset();
             cachedWriter.Put(creationEvent);
             server.SendAsPacketHandlerToAll(this, cachedWriter, DeliveryMethod.ReliableOrdered);
 
             foreach (var instantiatedPlayerId in instantiatedPlayerIds)
             {
+                if (instantiatedPlayerId == newPlayerId)
+                {
+                    continue;
+                }
+
                 creationEvent.Id = instantiatedPlayerId;
-                
+
                 cachedWriter.Reset();
+                cachedWriter.Put((int) PlayerLifetimePacketType.Creation);
                 cachedWriter.Put(creationEvent);
                 server.SendAsPacketHandler(this, e.PlayerConnection.peer, cachedWriter, DeliveryMethod.ReliableOrdered);
             }
@@ -66,11 +72,11 @@ namespace Source.Server
             instantiatedPlayerIds.Remove(id);
 
             var destructionEvent = new PlayerDestructionEvent();
-            
+
             eventBus.PushEvent(destructionEvent);
-            
+
             cachedWriter.Reset();
-            cachedWriter.Put(0);
+            cachedWriter.Put((int) PlayerLifetimePacketType.Destruction);
             cachedWriter.Put(destructionEvent);
             server.SendAsPacketHandlerToAll(this, cachedWriter, DeliveryMethod.ReliableOrdered);
         }
