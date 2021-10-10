@@ -12,8 +12,8 @@ namespace Source.Shared
         [Header("Dependencies")]
         public EventBus eventBus;
         public TNetwork network;
-
-        [Space]
+        
+        [Header("Debug")]
         public List<TPacketHandler> packetHandlers;
 
         protected void Start()
@@ -30,6 +30,9 @@ namespace Source.Shared
 
         protected void RegisterPacketHandlers()
         {
+            packetHandlers.Clear();
+            packetHandlers.AddRange(GetComponentsInChildren<TPacketHandler>());
+            
             foreach (var packetHandler in packetHandlers)
             {
                 if (packetHandler.HandlerId != (int) Handlers.Unassigned)

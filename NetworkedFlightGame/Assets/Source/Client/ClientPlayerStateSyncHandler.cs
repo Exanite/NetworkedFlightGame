@@ -1,10 +1,5 @@
-﻿using System;
-using LiteNetLib;
-using LiteNetLib.Utils;
-using Networking;
-using Source.Server;
+﻿using LiteNetLib;
 using Source.Shared;
-using UnityEngine;
 
 namespace Source.Client
 {
@@ -14,7 +9,7 @@ namespace Source.Client
 
         private PlayerStatePacket cachedPlayerState;
 
-        public override int HandlerId => (int)Handlers.PlayerState;
+        public override int HandlerId => (int) Handlers.PlayerState;
 
         public override void Initialize()
         {
@@ -27,7 +22,7 @@ namespace Source.Client
         {
             // If is for self, ignore
             // Else apply
-            
+
             cachedPlayerState.Deserialize(reader);
 
             if (cachedPlayerState.NetworkId == playerManager.localPlayer.networkId)
@@ -50,12 +45,12 @@ namespace Source.Client
             // Send self position
 
             var localPlayer = playerManager.localPlayer;
-            
+
             if (!localPlayer)
             {
                 return;
             }
-            
+
             cachedPlayerState.Set(localPlayer.networkId, localPlayer.transform.position, localPlayer.transform.rotation);
             cachedWriter.Reset();
             cachedWriter.Put(cachedPlayerState);

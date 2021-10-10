@@ -60,6 +60,7 @@ GameObject:
   - component: {fileID: 7745757150892281886}
   - component: {fileID: 7877797488756426171}
   - component: {fileID: 3709593730493751156}
+  - component: {fileID: 5864880286604267267}
   m_Layer: 0
   m_Name: Client
   m_TagString: Untagged
@@ -190,3 +191,18 @@ MonoBehaviour:
   localPlayerPrefab: {fileID: 4377338160794057946, guid: fb2896814de0412478940b3fe552db76, type: 3}
   remotePlayerPrefab: {fileID: 4368270400129490846, guid: 4de9fa57dd2dc6c4ca6ed5580c84e5ac, type: 3}
   localPlayer: {fileID: 0}
+--- !u!114 &5864880286604267267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7085885252242053102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69315242545944ce9eb67e0131f1c6a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventBus: {fileID: 7085885252242053075}
+  client: {fileID: 7085885252242053103}
+  playerManager: {fileID: 3709593730493751156}

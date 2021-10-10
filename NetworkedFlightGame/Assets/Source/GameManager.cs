@@ -16,6 +16,11 @@ public class GameManager : MonoBehaviour
     public ServerNetworkManager server;
     public ClientNetworkManager client;
 
+    private void Start()
+    {
+        Cursor.lockState = CursorLockMode.None;
+    }
+
     public void CreateServer(int port)
     {
         if (!server)
@@ -32,12 +37,12 @@ public class GameManager : MonoBehaviour
         {
             client = Instantiate(clientPrefab);
         }
-        
+
         client.network.Disconnected += Client_OnDisconnected;
 
         return client.Connect(endPoint, playerName);
     }
-    
+
     private void Client_OnDisconnected(UnityClient sender, DisconnectedEventArgs e)
     {
         SceneManager.LoadScene(gameObject.scene.buildIndex);
