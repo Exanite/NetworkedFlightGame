@@ -17,11 +17,15 @@ public class Ship : MonoBehaviour, InputActions.IPlayerActions
 
     private Rigidbody rb;
 
+    GameObject bulletSystem;
+    public GameObject bulletPrefab;
+
     float cursorLockTime = 0;
     private void Awake(){
         vflags = new Vector3(0f,0f,0f);
         rb = GetComponent<Rigidbody>();
         rb.maxAngularVelocity = 2f;
+        bulletSystem = GameObject.Find("BulletSystem");
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -56,8 +60,15 @@ public class Ship : MonoBehaviour, InputActions.IPlayerActions
     public void OnFire(InputAction.CallbackContext context)
     {
         // Left Click
-        if(cursorLockTime > 2){ 
+        if(cursorLockTime > 2 && context.performed){ 
             Debug.Log("Fire");
+            Vector3 p = transform.position + transform.forward*4;
+            GameObject bullet = Instantiate(bulletPrefab, p, transform.rotation);
+            Beam beamscript = bullet.GetComponent<Beam>();
+            beamscript.spawnerID = 0;//gameObject.name;
+            Rigidbody bulletRB = bullet.GetComponent<Rigidbody>();
+            bulletRB.velocity = rb.velocity*1 + transform.forward*50;
+            bullet.transform.parent = bulletSystem.transform;
         }
     }
 
@@ -85,16 +96,17 @@ public class Ship : MonoBehaviour, InputActions.IPlayerActions
 
     public void addTorque(float scale, float a, Vector3 dir){
         // Vector3 t = new Vector3(qflags.x, qflags.y, 0);
-        float maxTorque = 4;
+        float maxTorque = 4 * scale;
         float t = a * scale;
         t = Mathf.Clamp(-maxTorque, t, maxTorque);
         rb.AddRelativeTorque( dir * t * Time.deltaTime );
     }
 
     public void addTorques(){
-        addTorque(1.0f, qflags.x, Vector3.up); //left right
-        addTorque(1.0f, qflags.y, Vector3.right); //up down
-        addTorque(4.0f, qflags.z, Vector3.forward); //roll
+        float s = 10.0f;
+        addTorque(s*1.0f, qflags.x, Vector3.up); //left right
+        addTorque(s*1.0f, qflags.y, Vector3.right); //up down
+        addTorque(s*4.0f, qflags.z, Vector3.forward); //roll
     }
 
     public void Update(){
