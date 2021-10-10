@@ -14,7 +14,7 @@ public class Beam : MonoBehaviour
     {
         initial_position = transform.position;
         lifetime = 20;
-        transform.parent.GetComponent<BulletManager>().newChild(gameObject);
+        // transform.parent.GetComponent<BulletManager>().newChild(gameObject);
     }
 
     void life(){
@@ -30,7 +30,7 @@ public class Beam : MonoBehaviour
             //maybe 'tag' health object and then damage?
             Debug.Log($"collided with a ship: {ship}");
         }
-        Destroy(gameObject);
+        // Destroy(gameObject);
     }
 
     // Update is called once per frame
