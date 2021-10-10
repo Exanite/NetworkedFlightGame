@@ -7,6 +7,7 @@ namespace Source.Shared
     public class PlayerStatePacket : INetSerializable
     {
         public int NetworkId;
+        public float lastReceiveTime; // Not implemented
         
         public Vector3 Position;
         public Quaternion Rotation;

@@ -148,7 +148,7 @@ MonoBehaviour:
   clientProjectileManager: {fileID: 2265044042139906014}
   localPlayerPrefab: {fileID: 4377338160794057946, guid: fb2896814de0412478940b3fe552db76, type: 3}
   remotePlayerPrefab: {fileID: 4368270400129490846, guid: 4de9fa57dd2dc6c4ca6ed5580c84e5ac, type: 3}
-  spawnDistance: 1500
+  spawnDistance: 1000
   localPlayer: {fileID: 0}
 --- !u!114 &5864880286604267267
 MonoBehaviour:
@@ -197,7 +197,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eventBus: {fileID: 7085885252242053075}
   client: {fileID: 7085885252242053103}
-  levelPrefab: {fileID: 8822060165954966729, guid: b4c8bb9389c214eabb0e446b0ac71cf3, type: 3}
+  levelPrefab: {fileID: 4434354228508004501, guid: 59e73a11879af344fbcecdc9c788d064, type: 3}
   level: {fileID: 0}
 --- !u!114 &2045202190630744508
 MonoBehaviour:

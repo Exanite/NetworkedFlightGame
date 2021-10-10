@@ -25,7 +25,7 @@ public class BeamProjectile : Projectile
             return;
         }
         
-        hitManager.ReportHit(this, other);
+        // hitManager.ReportHit(this, other);
 
         Destroy(gameObject);
     }
