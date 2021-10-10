@@ -16,11 +16,19 @@ public class TurretSpawner : MonoBehaviour
         both(15f,    1f,   5,  1);
         both(38f,    1f,   5,  1);
         both(48f,  1.5f, 6*5,  1);
+        ring(50.5f,  0f, 6*5,  0);
     }
 
     void both(float r, float z, int n, int f){
         ring(r,  z, n,  f);
         ring(r, -z, n, -f);
+    }
+
+    Quaternion lookAt(Vector3 t){
+        Vector3 dp = t - transform.position;
+        // Debug.DrawRay(transform.position, dp, Color.green);
+        Quaternion aimDir = Quaternion.LookRotation(dp.normalized, Vector3.up);
+        return aimDir;
     }
 
     void ring(float radius, float z, int n, int front){
@@ -32,6 +40,9 @@ public class TurretSpawner : MonoBehaviour
             p.y = radius * Mathf.Cos(a);
             p.z = z;
             Quaternion rot = Quaternion.LookRotation(front * transform.forward, Vector3.up);
+            if(front == 0){
+                rot = lookAt(p);
+            }
             GameObject turret = Instantiate(turretPrefab, p, rot);
             turret.transform.parent = transform;
         }
