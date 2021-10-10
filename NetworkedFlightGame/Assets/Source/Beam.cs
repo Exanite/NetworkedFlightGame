@@ -24,9 +24,11 @@ public class Beam : MonoBehaviour
         }
     }
     
+    // Needs to be OnCollisionEnter
     void OnTrigger(Collision collision){
-        if (collision.gameObject.GetComponent<LocalShip>() != null){
-            Debug.Log("collided with a ship");
+        if (collision.gameObject.TryGetComponent(out LocalShip ship)){
+            //maybe 'tag' health object and then damage?
+            Debug.Log($"collided with a ship: {ship}");
         }
         Destroy(gameObject);
     }
