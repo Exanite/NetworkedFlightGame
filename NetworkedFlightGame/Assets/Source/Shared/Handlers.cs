@@ -2,6 +2,9 @@
 {
     public enum Handlers
     {
+        // Shouldn't be here, but 
+        NotAHandler,
+        
         JoinRequest,
     }
 }
