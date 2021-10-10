@@ -34,9 +34,15 @@ public class GameManager : MonoBehaviour
             client = Instantiate(clientPrefab);
         }
         
+        client.network.Connected += Client_OnConnected;
         client.network.Disconnected += Client_OnDisconnected;
 
         return client.Connect(endPoint, playerName);
+    }
+
+    private void Client_OnConnected(UnityClient sender, ConnectedEventArgs e)
+    {
+        mainMenuCamera.gameObject.SetActive(false);
     }
 
     private void Client_OnDisconnected(UnityClient sender, DisconnectedEventArgs e)

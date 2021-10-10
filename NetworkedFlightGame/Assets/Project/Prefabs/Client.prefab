@@ -43,6 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62c7cde31e093e7188a03568a723181f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bulletPrefabs: []
 --- !u!1 &7085885252242053102
 GameObject:
   m_ObjectHideFlags: 0
@@ -185,6 +186,7 @@ MonoBehaviour:
   eventBus: {fileID: 7085885252242053075}
   client: {fileID: 7085885252242053103}
   networkManager: {fileID: 7085885252242053074}
-  localPlayerPrefab: {fileID: 3840422554001551792, guid: fb2896814de0412478940b3fe552db76, type: 3}
-  remotePlayerPrefab: {fileID: 3840422554001551792, guid: 4de9fa57dd2dc6c4ca6ed5580c84e5ac, type: 3}
+  bulletManager: {fileID: 4976755911268754088}
+  localPlayerPrefab: {fileID: 4377338160794057946, guid: fb2896814de0412478940b3fe552db76, type: 3}
+  remotePlayerPrefab: {fileID: 4368270400129490846, guid: 4de9fa57dd2dc6c4ca6ed5580c84e5ac, type: 3}
   localPlayer: {fileID: 0}
