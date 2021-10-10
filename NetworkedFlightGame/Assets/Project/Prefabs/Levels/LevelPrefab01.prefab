@@ -3968,7 +3968,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8198762777297425555}
-  - component: {fileID: 6691863430891375195}
   m_Layer: 0
   m_Name: TurretSpawnPoint
   m_TagString: Untagged
@@ -4081,19 +4080,6 @@ Transform:
   m_Father: {fileID: 5761314112511091711}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6691863430891375195
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1979594097225958914}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 221b9369b930ec098bd6a753509d8af4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  turretPrefab: {fileID: 2824525013581270735, guid: 2ea4483acc2434fa0bd6f900882ff67f, type: 3}
 --- !u!1 &1984174970378517217
 GameObject:
   m_ObjectHideFlags: 0
