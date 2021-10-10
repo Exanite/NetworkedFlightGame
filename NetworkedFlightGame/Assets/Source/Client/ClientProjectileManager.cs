@@ -1,17 +1,14 @@
-using System;
-using System.Collections.Generic;
 using LiteNetLib;
 using Source.Shared;
 using UnityEngine;
 
-// BulletFactory
 namespace Source.Client
 {
     public class ClientProjectileManager : ClientMonoPacketHandler
     {
         [Header("Dependencies")]
         public ClientNetworkManager networkManager;
-        public List<Beam> projectilePrefabs;
+        public ProjectileRegistry projectileRegistry;
 
         private ProjectileCreationPacket cachedProjectileCreationPacket;
 
@@ -27,14 +24,14 @@ namespace Source.Client
         public override void Receive(NetPeer peer, NetPacketReader reader, DeliveryMethod deliveryMethod)
         {
             // Skip if is own
-            
+
             cachedProjectileCreationPacket.Deserialize(reader);
 
             if (cachedProjectileCreationPacket.OwningEntityId == networkManager.localNetworkId)
             {
                 return;
             }
-            
+
             InstantiateLocal(cachedProjectileCreationPacket);
         }
 
@@ -47,20 +44,15 @@ namespace Source.Client
             cachedWriter.Reset();
             cachedWriter.Put(cachedProjectileCreationPacket);
             client.SendAsPacketHandlerToServer(this, cachedWriter, DeliveryMethod.ReliableUnordered);
-            
+
             InstantiateLocal(cachedProjectileCreationPacket);
         }
 
         private void InstantiateLocal(ProjectileCreationPacket projectileCreationPacket)
         {
-            if (projectileCreationPacket.PrefabId < 0 || projectileCreationPacket.PrefabId >= projectilePrefabs.Count)
-            {
-                return;
-            }
-            
-            var prefab = projectilePrefabs[projectileCreationPacket.PrefabId];
-            
-            
+            if (projectileRegistry.TryGet(projectileCreationPacket.PrefabId, out var projectilePrefab)) { }
+
+            // Instantiate projectilePrefab
         }
     }
 }
