@@ -18,7 +18,7 @@ namespace Source.Client
         public LocalShip localPlayer;
         public Dictionary<int, Ship> playersById;
 
-        public override int HandlerId => (int) Handlers.NotAHandler;
+        public override int HandlerId => (int) Handlers.Unassigned;
 
         public override void Initialize()
         {

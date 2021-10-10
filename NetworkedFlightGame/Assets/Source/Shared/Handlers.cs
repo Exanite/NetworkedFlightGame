@@ -2,10 +2,10 @@
 {
     public enum Handlers
     {
-        // Shouldn't be here, but 
-        NotAHandler,
+        Unassigned = 0,
         
         PlayerJoin,
         PlayerLifetime,
+        PlayerState,
     }
 }

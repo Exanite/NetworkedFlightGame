@@ -7,7 +7,7 @@ namespace Source.Client
     {
         public ClientNetworkManager networkManager;
             
-        public override int HandlerId => (int) Handlers.NotAHandler;
+        public override int HandlerId => (int) Handlers.Unassigned;
 
         public override void Initialize()
         {
