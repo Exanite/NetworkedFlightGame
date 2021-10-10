@@ -128,7 +128,7 @@ MonoBehaviour:
   - {fileID: 7745757150892281886}
   - {fileID: 7877797488756426171}
   - {fileID: 3709593730493751156}
-  localId: -1
+  localNetworkId: -1
 --- !u!114 &7085885252242053073
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -205,4 +205,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eventBus: {fileID: 7085885252242053075}
   client: {fileID: 7085885252242053103}
+  networkManager: {fileID: 7085885252242053074}
   playerManager: {fileID: 3709593730493751156}

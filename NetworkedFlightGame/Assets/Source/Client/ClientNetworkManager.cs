@@ -8,7 +8,7 @@ namespace Source.Client
 {
     public class ClientNetworkManager : MonoNetManager<UnityClient, ClientMonoPacketHandler>
     {
-        public int localId = -1;
+        public int localNetworkId = -1;
         
         protected override async UniTask Initialize()
         {

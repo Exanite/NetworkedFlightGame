@@ -5,6 +5,7 @@ namespace Source.Client
 {
     public class ClientPlayerStateSyncHandler : ClientMonoPacketHandler
     {
+        public ClientNetworkManager networkManager;
         public ClientPlayerManager playerManager;
 
         private PlayerStatePacket cachedPlayerState;
@@ -25,12 +26,12 @@ namespace Source.Client
 
             cachedPlayerState.Deserialize(reader);
 
-            if (cachedPlayerState.NetworkId == playerManager.localPlayer.networkId)
+            if (cachedPlayerState.NetworkId == networkManager.localNetworkId)
             {
                 return;
             }
 
-            if (playerManager.playersById.TryGetValue(cachedPlayerState.NetworkId, out var player))
+            if (!playerManager.playersById.TryGetValue(cachedPlayerState.NetworkId, out var player))
             {
                 return;
             }

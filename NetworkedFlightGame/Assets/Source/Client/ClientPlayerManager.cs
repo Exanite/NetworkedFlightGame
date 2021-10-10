@@ -37,7 +37,7 @@ namespace Source.Client
 
         public void On(PlayerCreationEvent e)
         {
-            var isLocal = e.Id == networkManager.localId;
+            var isLocal = e.Id == networkManager.localNetworkId;
             var player = CreatePlayer(e.Id, isLocal);
   
             if (isLocal)

@@ -23,7 +23,7 @@ namespace Source.Client
 
         public void On(ClientIdAssignmentEvent e)
         {
-            networkManager.localId = e.Id;
+            networkManager.localNetworkId = e.Id;
         }
     }
 }
