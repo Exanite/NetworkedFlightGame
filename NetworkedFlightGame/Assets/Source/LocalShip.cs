@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Source.Client;
 using Source.Input;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -11,7 +12,7 @@ namespace Source
     {
 
         [Header("Dependencies")]
-        public BulletManager bulletManager;
+        public ClientProjectileManager clientProjectileManager;
         public GameObject bulletPrefab;
         private Rigidbody rb;
     
@@ -67,11 +68,11 @@ namespace Source
                 Debug.Log("Fire");
                 Vector3 p = transform.position + transform.forward*4;
                 GameObject bullet = Instantiate(bulletPrefab, p, transform.rotation);
-                Beam beamscript = bullet.GetComponent<Beam>();
+                BeamProjectile beamscript = bullet.GetComponent<BeamProjectile>();
                 beamscript.spawnerID = 0;//gameObject.name;
                 Rigidbody bulletRB = bullet.GetComponent<Rigidbody>();
                 bulletRB.velocity = rb.velocity*1 + transform.forward*50;
-                bullet.transform.parent = bulletManager.transform;
+                bullet.transform.parent = clientProjectileManager.transform;
             }
         }
 

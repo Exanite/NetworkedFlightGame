@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 3391687556654905495}
   - component: {fileID: 4080448150447819036}
   - component: {fileID: 2005289426085964766}
+  - component: {fileID: 7067721964551667262}
   m_Layer: 0
   m_Name: Server
   m_TagString: Untagged
@@ -133,6 +134,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e18afe795dd749e68d1a457209007c86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventBus: {fileID: 3391687556654905498}
+  server: {fileID: 3391687556654905489}
+--- !u!114 &7067721964551667262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3391687556654905488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe5288a0310f4c7e94b23400fe5dd897, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   eventBus: {fileID: 3391687556654905498}
