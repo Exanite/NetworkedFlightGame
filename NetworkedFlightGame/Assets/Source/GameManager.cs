@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     [Header("Dependencies")]
+    public Camera mainMenuCamera;
     public ServerNetworkManager serverPrefab;
     public ClientNetworkManager clientPrefab;
 

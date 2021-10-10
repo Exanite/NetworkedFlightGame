@@ -61,6 +61,7 @@ namespace Source.Client
 
         private GameObject InstantiateLocalPlayer()
         {
+            // Todo Set ids
             Debug.Log("Instantiating local player prefab");
 
             localPlayer = Instantiate(localPlayerPrefab);
