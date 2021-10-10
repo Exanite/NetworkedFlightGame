@@ -9,6 +9,8 @@ namespace Source.Client
 {
     public class ClientProjectileManager : ClientMonoPacketHandler
     {
+        [Header("Dependencies")]
+        public ClientNetworkManager networkManager;
         public List<Beam> projectilePrefabs;
 
         private ProjectileCreationPacket cachedProjectileCreationPacket;
@@ -25,6 +27,15 @@ namespace Source.Client
         public override void Receive(NetPeer peer, NetPacketReader reader, DeliveryMethod deliveryMethod)
         {
             // Skip if is own
+            
+            cachedProjectileCreationPacket.Deserialize(reader);
+
+            if (cachedProjectileCreationPacket.OwningEntityId == networkManager.localNetworkId)
+            {
+                return;
+            }
+            
+            InstantiateLocal(cachedProjectileCreationPacket);
         }
 
         /// <param name="owningEntityId">
