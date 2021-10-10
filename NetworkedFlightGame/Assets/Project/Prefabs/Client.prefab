@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 7085885252242053073}
   - component: {fileID: 7745757150892281886}
   - component: {fileID: 7877797488756426171}
+  - component: {fileID: 3709593730493751156}
   m_Layer: 0
   m_Name: Client
   m_TagString: Untagged
@@ -80,6 +81,7 @@ MonoBehaviour:
   - {fileID: 7085885252242053073}
   - {fileID: 7745757150892281886}
   - {fileID: 7877797488756426171}
+  - {fileID: 3709593730493751156}
   localId: -1
 --- !u!114 &7085885252242053073
 MonoBehaviour:
@@ -124,3 +126,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eventBus: {fileID: 7085885252242053075}
   client: {fileID: 7085885252242053103}
+--- !u!114 &3709593730493751156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7085885252242053102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ef42bd2270f4942b7d21440a733fecc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventBus: {fileID: 7085885252242053075}
+  client: {fileID: 7085885252242053103}
+  networkManager: {fileID: 7085885252242053074}
+  localPlayerPrefab: {fileID: 3840422554001551792, guid: fb2896814de0412478940b3fe552db76, type: 3}
+  remotePlayerPrefab: {fileID: 3840422554001551792, guid: 4de9fa57dd2dc6c4ca6ed5580c84e5ac, type: 3}
+  localPlayer: {fileID: 0}

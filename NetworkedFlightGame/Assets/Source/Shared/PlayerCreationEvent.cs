@@ -15,5 +15,10 @@ namespace Source.Shared
         {
             Id = reader.GetInt();
         }
+
+        public override string ToString()
+        {
+            return base.ToString() + $": {{ Id = {Id} }}";
+        }
     }
 }

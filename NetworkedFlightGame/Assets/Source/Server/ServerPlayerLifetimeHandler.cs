@@ -46,6 +46,7 @@ namespace Source.Server
             eventBus.PushEvent(creationEvent);
 
             cachedWriter.Reset();
+            cachedWriter.Put((int) PlayerLifetimePacketType.Creation);
             cachedWriter.Put(creationEvent);
             server.SendAsPacketHandlerToAll(this, cachedWriter, DeliveryMethod.ReliableOrdered);
 

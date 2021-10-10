@@ -40,13 +40,13 @@ namespace Source.Server
 
         private void OnJoinSucceeded(NetPeer peer, string playerName)
         {
-            playerConnectionManager.AddPlayerConnection(peer, playerName);
-
             cachedWriter.Reset();
             cachedWriter.Put(true);
             cachedWriter.Put(peer.Id);
 
             server.SendAsPacketHandler(this, peer, cachedWriter, DeliveryMethod.ReliableOrdered);
+            
+            playerConnectionManager.AddPlayerConnection(peer, playerName);
         }
     }
 }
