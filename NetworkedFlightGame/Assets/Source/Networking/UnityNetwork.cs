@@ -57,9 +57,7 @@ namespace Networking
         protected void WritePacketHandlerDataToCachedWriter(IPacketHandler handler, NetDataWriter writer)
         {
             cachedWriter.Reset();
-
-            cachedWriter.Put(true); // For usePacketHandler
-
+            
             cachedWriter.Put(handler.HandlerId);
             cachedWriter.Put(writer.Data, 0, writer.Length);
         }
@@ -80,19 +78,14 @@ namespace Networking
 
         protected virtual void OnNetworkReceive(NetPeer peer, NetPacketReader reader, DeliveryMethod deliveryMethod)
         {
-            var usePacketHandler = reader.GetBool();
+            var packetHandlerId = reader.GetInt();
 
-            if (usePacketHandler)
+            if (!packetHandlers.TryGetValue(packetHandlerId, out var packetHandler))
             {
-                var packetHandlerId = reader.GetInt();
-
-                if (!packetHandlers.TryGetValue(packetHandlerId, out var packetHandler))
-                {
-                    return;
-                }
-
-                packetHandler.Receive(peer, reader, deliveryMethod);
+                return;
             }
+
+            packetHandler.Receive(peer, reader, deliveryMethod);
         }
 
         protected virtual void OnNetworkReceiveUnconnected(IPEndPoint remoteEndPoint, NetPacketReader reader, UnconnectedMessageType messageType) { }
