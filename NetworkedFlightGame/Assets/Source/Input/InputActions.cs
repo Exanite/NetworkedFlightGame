@@ -84,7 +84,7 @@ namespace Source.Input
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""QUIT"",
+                    ""name"": ""Exit"",
                     ""type"": ""Button"",
                     ""id"": ""407f1100-6128-48b7-b933-a4b6bc4a8ccd"",
                     ""expectedControlType"": ""Button"",
@@ -297,7 +297,7 @@ namespace Source.Input
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""QUIT"",
+                    ""action"": ""Exit"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -353,7 +353,7 @@ namespace Source.Input
             m_Player_Roll = m_Player.FindAction("Roll", throwIfNotFound: true);
             m_Player_Thrust = m_Player.FindAction("Thrust", throwIfNotFound: true);
             m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
-            m_Player_QUIT = m_Player.FindAction("QUIT", throwIfNotFound: true);
+            m_Player_Exit = m_Player.FindAction("Exit", throwIfNotFound: true);
             m_Player_Reticle = m_Player.FindAction("Reticle", throwIfNotFound: true);
         }
 
@@ -420,7 +420,7 @@ namespace Source.Input
         private readonly InputAction m_Player_Roll;
         private readonly InputAction m_Player_Thrust;
         private readonly InputAction m_Player_Look;
-        private readonly InputAction m_Player_QUIT;
+        private readonly InputAction m_Player_Exit;
         private readonly InputAction m_Player_Reticle;
         public struct PlayerActions
         {
@@ -432,7 +432,7 @@ namespace Source.Input
             public InputAction @Roll => m_Wrapper.m_Player_Roll;
             public InputAction @Thrust => m_Wrapper.m_Player_Thrust;
             public InputAction @Look => m_Wrapper.m_Player_Look;
-            public InputAction @QUIT => m_Wrapper.m_Player_QUIT;
+            public InputAction @Exit => m_Wrapper.m_Player_Exit;
             public InputAction @Reticle => m_Wrapper.m_Player_Reticle;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
@@ -461,9 +461,9 @@ namespace Source.Input
                     @Look.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
                     @Look.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
                     @Look.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
-                    @QUIT.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnQUIT;
-                    @QUIT.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnQUIT;
-                    @QUIT.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnQUIT;
+                    @Exit.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnExit;
+                    @Exit.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnExit;
+                    @Exit.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnExit;
                     @Reticle.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReticle;
                     @Reticle.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReticle;
                     @Reticle.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReticle;
@@ -489,9 +489,9 @@ namespace Source.Input
                     @Look.started += instance.OnLook;
                     @Look.performed += instance.OnLook;
                     @Look.canceled += instance.OnLook;
-                    @QUIT.started += instance.OnQUIT;
-                    @QUIT.performed += instance.OnQUIT;
-                    @QUIT.canceled += instance.OnQUIT;
+                    @Exit.started += instance.OnExit;
+                    @Exit.performed += instance.OnExit;
+                    @Exit.canceled += instance.OnExit;
                     @Reticle.started += instance.OnReticle;
                     @Reticle.performed += instance.OnReticle;
                     @Reticle.canceled += instance.OnReticle;
@@ -516,7 +516,7 @@ namespace Source.Input
             void OnRoll(InputAction.CallbackContext context);
             void OnThrust(InputAction.CallbackContext context);
             void OnLook(InputAction.CallbackContext context);
-            void OnQUIT(InputAction.CallbackContext context);
+            void OnExit(InputAction.CallbackContext context);
             void OnReticle(InputAction.CallbackContext context);
         }
     }

@@ -94,17 +94,11 @@ namespace Source
             qflags = new Vector3(0f, 0f, 0f);
         }
 
-        public void OnReticle(InputAction.CallbackContext context) { }
+        public void OnReticle(InputAction.CallbackContext context) {}
 
-        public void OnQUIT(InputAction.CallbackContext context)
-        {
-            // Escape Key
-            // 
-            // Debug.Log("Quitting Unity");
-            // Application.Quit();
-        }
+        public void OnExit(InputAction.CallbackContext context) {}
 
-        public void addImpulse()
+        public void AddImpulse()
         {
             var f = thrust * 100 * (transform.right * vflags.x
                                     + transform.up * vflags.z
@@ -112,7 +106,7 @@ namespace Source
             rb.AddForce(f * Time.deltaTime);
         }
 
-        public void addTorque(float scale, float a, Vector3 dir)
+        public void AddTorque(float scale, float a, Vector3 dir)
         {
             // Vector3 t = new Vector3(qflags.x, qflags.y, 0);
             var maxTorque = 4 * scale;
@@ -121,12 +115,12 @@ namespace Source
             rb.AddRelativeTorque(dir * t * Time.deltaTime);
         }
 
-        public void addTorques()
+        public void AddTorques()
         {
             var s = 10.0f;
-            addTorque(s * 1.0f, qflags.x, Vector3.up); //left right
-            addTorque(s * 1.0f, qflags.y, Vector3.right); //up down
-            addTorque(s * 16.0f, qflags.z, Vector3.forward); //roll
+            AddTorque(s * 1.0f, qflags.x, Vector3.up); //left right
+            AddTorque(s * 1.0f, qflags.y, Vector3.right); //up down
+            AddTorque(s * 16.0f, qflags.z, Vector3.forward); //roll
         }
 
         public void Update()
@@ -136,10 +130,10 @@ namespace Source
                 cursorLockTime += Time.deltaTime;
             }
 
-            addImpulse();
+            AddImpulse();
             if (cursorLockTime > 2)
             {
-                addTorques();
+                AddTorques();
             }
         }
     }

@@ -1,79 +1,79 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.InputSystem;
-using Source.Input;
 
-public class InputDistributor : InputActions.IPlayerActions
+namespace Source.Input
 {
-    public List<InputActions.IPlayerActions> listeners;
-
-    public InputDistributor(List<InputActions.IPlayerActions> listeners)
+    public class InputDistributor : InputActions.IPlayerActions
     {
-        this.listeners = listeners;
-    }
+        public List<InputActions.IPlayerActions> listeners;
 
-    public void OnMove(InputAction.CallbackContext context)
-    {
-        foreach (var listener in listeners)
+        public InputDistributor(List<InputActions.IPlayerActions> listeners)
         {
-            listener.OnMove(context);
+            this.listeners = listeners;
         }
-    }
 
-    public void OnFire(InputAction.CallbackContext context)
-    {
-        foreach (var listener in listeners)
+        public void OnMove(InputAction.CallbackContext context)
         {
-            listener.OnFire(context);
+            foreach (var listener in listeners)
+            {
+                listener.OnMove(context);
+            }
         }
-    }
 
-    public void OnPointer(InputAction.CallbackContext context)
-    {
-        foreach (var listener in listeners)
+        public void OnFire(InputAction.CallbackContext context)
         {
-            listener.OnPointer(context);
+            foreach (var listener in listeners)
+            {
+                listener.OnFire(context);
+            }
         }
-    }
 
-    public void OnRoll(InputAction.CallbackContext context)
-    {
-        foreach (var listener in listeners)
+        public void OnPointer(InputAction.CallbackContext context)
         {
-            listener.OnRoll(context);
+            foreach (var listener in listeners)
+            {
+                listener.OnPointer(context);
+            }
         }
-    }
 
-    public void OnThrust(InputAction.CallbackContext context)
-    {
-        foreach (var listener in listeners)
+        public void OnRoll(InputAction.CallbackContext context)
         {
-            listener.OnThrust(context);
+            foreach (var listener in listeners)
+            {
+                listener.OnRoll(context);
+            }
         }
-    }
 
-    public void OnLook(InputAction.CallbackContext context)
-    {
-        foreach (var listener in listeners)
+        public void OnThrust(InputAction.CallbackContext context)
         {
-            listener.OnLook(context);
+            foreach (var listener in listeners)
+            {
+                listener.OnThrust(context);
+            }
         }
-    }
 
-    public void OnQUIT(InputAction.CallbackContext context)
-    {
-        foreach (var listener in listeners)
+        public void OnLook(InputAction.CallbackContext context)
         {
-            listener.OnQUIT(context);
+            foreach (var listener in listeners)
+            {
+                listener.OnLook(context);
+            }
         }
-    }
 
-    public void OnReticle(InputAction.CallbackContext context)
-    {
-        foreach (var listener in listeners)
+        public void OnExit(InputAction.CallbackContext context)
         {
-            listener.OnReticle(context);
+            foreach (var listener in listeners)
+            {
+                listener.OnExit(context);
+            }
+        }
+
+        public void OnReticle(InputAction.CallbackContext context)
+        {
+            foreach (var listener in listeners)
+            {
+                listener.OnReticle(context);
+            }
         }
     }
 }

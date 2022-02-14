@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Source.Input
 {
@@ -9,7 +7,7 @@ namespace Source.Input
     {
         public LocalShip localShip;
         public Reticle reticle;
-        
+
         private InputActions actions;
 
         private void Awake()
@@ -18,9 +16,10 @@ namespace Source.Input
             // actions.Player.SetCallbacks(ship);
             actions.Player.SetCallbacks(
                 new InputDistributor(
-                    new List<InputActions.IPlayerActions>() { 
-                        localShip, reticle
-                }));
+                    new List<InputActions.IPlayerActions>
+                    {
+                        localShip, reticle,
+                    }));
         }
 
         private void OnEnable()
