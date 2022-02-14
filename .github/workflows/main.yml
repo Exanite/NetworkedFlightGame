@@ -40,7 +40,7 @@ jobs:
           path: NetworkedFlightGame/Library
           key: "NetworkedFlightGame/Library-${{ matrix.targetPlatform }}-${{ steps.date.outputs.date }}"
           restore-keys: |
-            - "NetworkedFlightGame/Library-${{ matrix.targetPlatform }}-${{ steps.date.outputs.date }}"
+            - NetworkedFlightGame/Library-${{ matrix.targetPlatform }}-${{ steps.date.outputs.date }}
       # Build
       - uses: game-ci/unity-builder@v2
         env:
