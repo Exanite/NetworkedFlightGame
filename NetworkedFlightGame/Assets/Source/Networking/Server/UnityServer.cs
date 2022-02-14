@@ -91,7 +91,7 @@ namespace Networking.Server
 
         protected override void OnConnectionRequest(ConnectionRequest request)
         {
-            request.AcceptIfKey(Constants.ConnectionKey);
+            request.AcceptIfKey(ConnectionKey);
         }
     }
 }

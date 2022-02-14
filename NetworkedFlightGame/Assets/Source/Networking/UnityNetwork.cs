@@ -10,11 +10,20 @@ namespace Networking
 {
     public abstract class UnityNetwork : MonoBehaviour, INetEventListener
     {
+        [SerializeField]
+        protected string connectionKey = Constants.DefaultConnectionKey;
+
         protected NetManager netManager;
         protected Dictionary<int, IPacketHandler> packetHandlers;
 
         protected NetDataWriter cachedWriter;
 
+        public string ConnectionKey
+        {
+            get => connectionKey;
+            set => connectionKey = value;
+        }
+        
         public abstract bool IsReady { get; }
         public IReadOnlyDictionary<int, IPacketHandler> PacketHandlers => packetHandlers;
 
@@ -57,7 +66,7 @@ namespace Networking
         protected void WritePacketHandlerDataToCachedWriter(IPacketHandler handler, NetDataWriter writer)
         {
             cachedWriter.Reset();
-            
+
             cachedWriter.Put(handler.HandlerId);
             cachedWriter.Put(writer.Data, 0, writer.Length);
         }
@@ -70,11 +79,11 @@ namespace Networking
             }
         }
 
-        protected virtual void OnPeerConnected(NetPeer peer) { }
+        protected virtual void OnPeerConnected(NetPeer peer) {}
 
-        protected virtual void OnPeerDisconnected(NetPeer peer, DisconnectInfo disconnectInfo) { }
+        protected virtual void OnPeerDisconnected(NetPeer peer, DisconnectInfo disconnectInfo) {}
 
-        protected virtual void OnNetworkError(IPEndPoint endPoint, SocketError socketError) { }
+        protected virtual void OnNetworkError(IPEndPoint endPoint, SocketError socketError) {}
 
         protected virtual void OnNetworkReceive(NetPeer peer, NetPacketReader reader, DeliveryMethod deliveryMethod)
         {
@@ -88,11 +97,11 @@ namespace Networking
             packetHandler.Receive(peer, reader, deliveryMethod);
         }
 
-        protected virtual void OnNetworkReceiveUnconnected(IPEndPoint remoteEndPoint, NetPacketReader reader, UnconnectedMessageType messageType) { }
+        protected virtual void OnNetworkReceiveUnconnected(IPEndPoint remoteEndPoint, NetPacketReader reader, UnconnectedMessageType messageType) {}
 
-        protected virtual void OnNetworkLatencyUpdate(NetPeer peer, int latency) { }
+        protected virtual void OnNetworkLatencyUpdate(NetPeer peer, int latency) {}
 
-        protected virtual void OnConnectionRequest(ConnectionRequest request) { }
+        protected virtual void OnConnectionRequest(ConnectionRequest request) {}
 
         void INetEventListener.OnPeerConnected(NetPeer peer)
         {

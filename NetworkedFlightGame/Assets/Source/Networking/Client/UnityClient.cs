@@ -9,7 +9,7 @@ namespace Networking.Client
     public class UnityClient : UnityNetwork
     {
         private DisconnectInfo previousDisconnectInfo;
-
+        
         public NetPeer Server { get; private set; }
 
         public bool IsConnecting { get; private set; }
@@ -39,7 +39,7 @@ namespace Networking.Client
             IsConnecting = true;
 
             netManager.Start();
-            netManager.Connect(endPoint, Constants.ConnectionKey);
+            netManager.Connect(endPoint, ConnectionKey);
 
             await UniTask.WaitUntil(() => !IsConnecting);
 
